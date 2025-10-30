@@ -1,0 +1,534 @@
+/* @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap"); */
+@import "tailwindcss";
+
+@plugin 'tailwind-scrollbar' {
+    nocompatible: true;
+    preferredstrategy: "pseudoelements";
+}
+
+@font-face {
+    font-family: "Manrope";
+    src: url("../fonts/Manrope/Manrope-VariableFont_wght.ttf")
+        format("truetype");
+    font-weight: 200 800;
+    font-display: swap;
+}
+
+@layer base {
+    body {
+        font-family: "Manrope", ui-sans-serif, system-ui, sans-serif;
+    }
+}
+
+:root {
+    --color-bg-primary: #ecfdf5;
+    --color-bg-secondary: #d1fae5;
+    --color-text-primary: #064e3b;
+    --color-text-secondary: #047857;
+    --color-border: #10b981;
+    --color-scrollbar-track: #10b981;
+    --color-primary: #10b981;
+    --color-primary-hover: #059669;
+    --color-bg-avatar: #059669;
+    --color-icon: #10b981;
+    --color-icon-hover: #064e3b;
+    --color-shadow: #10b981;
+}
+
+.Light.Blue {
+    --color-bg-primary: #f0f9ff;
+    --color-bg-secondary: #e0f2fe;
+    --color-text-primary: #0369a1;
+    --color-text-secondary: #0ea5e9;
+    --color-border: #38bdf8;
+    --color-scrollbar-track: #38bdf8;
+    --color-primary: #38bdf8;
+    --color-primary-hover: #0ea5e9;
+    --color-bg-avatar: #0ea5e9;
+    --color-icon: #38bdf8;
+    --color-icon-hover: #0369a1;
+    --color-shadow: #38bdf8;
+}
+
+.Light.Gray {
+    --color-bg-primary: #f8fafc;
+    --color-bg-secondary: #f1f5f9;
+    --color-text-primary: #1e293b;
+    --color-text-secondary: #64748b;
+    --color-border: #cbd5e1;
+    --color-scrollbar-track: #cbd5e1;
+    --color-primary: #94a3b8;
+    --color-primary-hover: #64748b;
+    --color-bg-avatar: #64748b;
+    --color-icon: #94a3b8;
+    --color-icon-hover: #1e293b;
+    --color-shadow: #cbd5e1;
+}
+
+.Dark {
+    --color-bg-primary: #0a0a0a; /* Near-black */
+    --color-bg-secondary: #1a1a1a; /* Very dark gray */
+    --color-text-primary: #ffffff; /* Pure white for contrast */
+    --color-text-secondary: #c0c0c0; /* Light gray */
+    --color-border: #404040; /* Medium-dark gray */
+    --color-scrollbar-track: #404040; /* Slightly lighter border gray */
+    --color-primary: #404040; /* Medium gray */
+    --color-primary-hover: #808080; /* Lighter gray for hover */
+    --color-bg-avatar: #808080; /* Dark gray for avatar background */
+    --color-icon: #404040; /* Gray for icons */
+    --color-icon-hover: #ffffff; /* White on hover */
+    --color-shadow: #c0c0c0; /* True black shadows */
+}
+
+.Dark.Blue {
+    --color-bg-primary: #0f172a;
+    --color-bg-secondary: #1e293b;
+    --color-text-primary: #f8fafc;
+    --color-text-secondary: #e2e8f0;
+    --color-border: #60a5fa;
+    --color-scrollbar-track: #60a5fa;
+    --color-primary: #60a5fa;
+    --color-primary-hover: #3b82f6;
+    --color-bg-avatar: #3b82f6;
+    --color-icon: #60a5fa;
+    --color-icon-hover: #f8fafc;
+    --color-shadow: #60a5fa;
+}
+
+.Dark.Green {
+    /* Dark Green theme */
+    --color-bg-primary: #052e16; /* Darkest green (near-black) */
+    --color-bg-secondary: #14532d; /* Rich moss green */
+    --color-text-primary: #dcfce7; /* Soft green-white */
+    --color-text-secondary: #bbf7d0; /* Pale mint */
+    --color-border: #22c55e; /* Vibrant green (unchanged) */
+    --color-scrollbar-track: #22c55e; /* Matches border (unchanged) */
+    --color-primary: #22c55e; /* Bold grass green (unchanged) */
+    --color-primary-hover: #16a34a; /* Darker green (unchanged) */
+    --color-bg-avatar: #16a34a; /* Matches hover (unchanged) */
+    --color-icon: #22c55e; /* Icons pop (unchanged) */
+    --color-icon-hover: #dcfce7; /* Light on hover (unchanged) */
+    --color-shadow: #22c55e; /* Green glow (unchanged) */
+}
+
+.Zen.Mist {
+    --color-bg-primary: #f8fafc;
+    --color-bg-secondary: #e2e8f0;
+    --color-text-primary: #334155;
+    --color-text-secondary: #64748b;
+    --color-border: #94a3b8;
+    --color-scrollbar-track: #94a3b8;
+    --color-primary: #7dd3fc; /* Airy sky blue */
+    --color-primary-hover: #38bdf8;
+    --color-bg-avatar: #38bdf8;
+    --color-icon: #7dd3fc;
+    --color-icon-hover: #334155;
+    --color-shadow: #94a3b8;
+}
+
+.Eucalyptus {
+    --color-bg-primary: #f0fdf4;
+    --color-bg-secondary: #dcfce7;
+    --color-text-primary: #1a2e05; /* Deep fern green */
+    --color-text-secondary: #365314;
+    --color-border: #86efac;
+    --color-scrollbar-track: #86efac;
+    --color-primary: #4ade80; /* Refreshing mint */
+    --color-primary-hover: #22c55e;
+    --color-bg-avatar: #22c55e;
+    --color-icon: #4ade80;
+    --color-icon-hover: #1a2e05;
+    --color-shadow: #86efac;
+}
+
+.Lavender.Haze {
+    --color-bg-primary: #faf5ff;
+    --color-bg-secondary: #f3e8ff;
+    --color-text-primary: #4c1d95;
+    --color-text-secondary: #7e22ce;
+    --color-border: #c084fc;
+    --color-scrollbar-track: #c084fc;
+    --color-primary: #a855f7; /* Gentle purple */
+    --color-primary-hover: #9333ea;
+    --color-bg-avatar: #9333ea;
+    --color-icon: #a855f7;
+    --color-icon-hover: #4c1d95;
+    --color-shadow: #c084fc;
+}
+
+.Seafoam {
+    --color-bg-primary: #f0fdfa;
+    --color-bg-secondary: #ccfbf1;
+    --color-text-primary: #134e4a;
+    --color-text-secondary: #0d9488;
+    --color-border: #5eead4;
+    --color-scrollbar-track: #5eead4;
+    --color-primary: #2dd4bf; /* Tropical aqua */
+    --color-primary-hover: #14b8a6;
+    --color-bg-avatar: #14b8a6;
+    --color-icon: #2dd4bf;
+    --color-icon-hover: #134e4a;
+    --color-shadow: #5eead4;
+}
+
+.Parchment {
+    --color-bg-primary: #fef6e6; /* Antique paper */
+    --color-bg-secondary: #f5e5c8;
+    --color-text-primary: #3c2a1e; /* Coffee bean */
+    --color-text-secondary: #6b4f3b;
+    --color-border: #d4a373;
+    --color-scrollbar-track: #d4a373;
+    --color-primary: #d4a373; /* Warm sandstone */
+    --color-primary-hover: #bc8a5f;
+    --color-bg-avatar: #bc8a5f;
+    --color-icon: #d4a373;
+    --color-icon-hover: #3c2a1e;
+    --color-shadow: #d4a373;
+}
+
+.Beige {
+    --color-bg-primary: #faf6f0; /* Creamy beige (softest) */
+    --color-bg-secondary: #f3e9db; /* Light latte */
+    --color-text-primary: #3a3226; /* Dark coffee (high contrast) */
+    --color-text-secondary: #6b5c4d; /* Muted brown */
+    --color-border: #d2b48c; /* Classic "tan" border */
+    --color-scrollbar-track: #d2b48c;
+    --color-primary: #d2b48c; /* Warm sand (buttons/icons) */
+    --color-primary-hover: #b08a64; /* Toasted caramel */
+    --color-bg-avatar: #b08a64;
+    --color-icon: #d2b48c;
+    --color-icon-hover: #3a3226;
+    --color-shadow: #d2b48c; /* Subtle sand shadow */
+}
+
+.Midnight.Mist {
+    --color-bg-primary: #0f172a; /* Navy-tinged dark */
+    --color-bg-secondary: #1e293b; /* Slate blue */
+    --color-text-primary: #e2e8f0; /* Soft white */
+    --color-text-secondary: #94a3b8; /* Muted blue-gray */
+    --color-border: #60a5fa; /* Gentle blue */
+    --color-scrollbar-track: #60a5fa;
+    --color-primary: #60a5fa;
+    --color-primary-hover: #3b82f6;
+    --color-bg-avatar: #3b82f6;
+    --color-icon: #60a5fa;
+    --color-icon-hover: #e2e8f0;
+    --color-shadow: #60a5fa;
+}
+
+.Deep.Forest {
+    --color-bg-primary: #052e16; /* Near-black green */
+    --color-bg-secondary: #14532d; /* Pine green */
+    --color-text-primary: #dcfce7;
+    --color-text-secondary: #86efac;
+    --color-border: #22c55e; /* Vibrant green */
+    --color-scrollbar-track: #22c55e;
+    --color-primary: #22c55e;
+    --color-primary-hover: #16a34a;
+    --color-bg-avatar: #16a34a;
+    --color-icon: #22c55e;
+    --color-icon-hover: #dcfce7;
+    --color-shadow: #22c55e;
+}
+
+.Twilight.Lavender {
+    --color-bg-primary: #1e1b2e; /* Deep eggplant */
+    --color-bg-secondary: #2e2a42;
+    --color-text-primary: #f3e8ff;
+    --color-text-secondary: #c084fc;
+    --color-border: #a855f7;
+    --color-scrollbar-track: #a855f7;
+    --color-primary: #a855f7;
+    --color-primary-hover: #9333ea;
+    --color-bg-avatar: #9333ea;
+    --color-icon: #a855f7;
+    --color-icon-hover: #f3e8ff;
+    --color-shadow: #a855f7;
+}
+
+.Abyssal.Teal {
+    --color-bg-primary: #042f2e; /* Deep sea green */
+    --color-bg-secondary: #134e4a;
+    --color-text-primary: #ccfbf1;
+    --color-text-secondary: #5eead4;
+    --color-border: #2dd4bf;
+    --color-scrollbar-track: #2dd4bf;
+    --color-primary: #2dd4bf;
+    --color-primary-hover: #14b8a6;
+    --color-bg-avatar: #14b8a6;
+    --color-icon: #2dd4bf;
+    --color-icon-hover: #ccfbf1;
+    --color-shadow: #2dd4bf;
+}
+
+.Charcoal.Parchment {
+    --color-bg-primary: #1c1917; /* Almost black */
+    --color-bg-secondary: #292524; /* Warm gray */
+    --color-text-primary: #f5f5f4;
+    --color-text-secondary: #d6d3d1;
+    --color-border: #a8a29e;
+    --color-scrollbar-track: #a8a29e;
+    --color-primary: #d4a373; /* Sandstone accent */
+    --color-primary-hover: #bc8a5f;
+    --color-bg-avatar: #bc8a5f;
+    --color-icon: #d4a373;
+    --color-icon-hover: #f5f5f4;
+    --color-shadow: #a8a29e;
+}
+
+.Light.Coffee {
+    /* Warm Latte Theme */
+    --color-bg-primary: #f5f0e6; /* Creamy latte base */
+    --color-bg-secondary: #e6d5b8; /* Steamed milk */
+    --color-text-primary: #3e2d21; /* Espresso brown */
+    --color-text-secondary: #6b4f3b; /* Lighter coffee stain */
+    --color-border: #c7a17a; /* Caramel swirl */
+    --color-scrollbar-track: #c7a17a;
+    --color-primary: #c7a17a; /* Primary accent (caramel) */
+    --color-primary-hover: #b38b6a; /* Darker caramel */
+    --color-bg-avatar: #b38b6a;
+    --color-icon: #c7a17a;
+    --color-icon-hover: #3e2d21; /* Espresso on hover */
+    --color-shadow: #c7a17a; /* Soft caramel glow */
+}
+
+.Dark.Coffee {
+    /* Espresso Dark Theme */
+    --color-bg-primary: #1a120b; /* Near-black coffee bean */
+    --color-bg-secondary: #3c2a21; /* Dark roasted */
+    --color-text-primary: #e2d5c8; /* Steamed milk */
+    --color-text-secondary: #d4a373; /* Caramel foam */
+    --color-border: #d4a373; /* Golden-brown rim */
+    --color-scrollbar-track: #d4a373;
+    --color-primary: #d4a373; /* Sandstone accent */
+    --color-primary-hover: #bc8a5f; /* Toasted caramel */
+    --color-bg-avatar: #bc8a5f;
+    --color-icon: #d4a373;
+    --color-icon-hover: #e2d5c8;
+    --color-shadow: #d4a373; /* Warm glow */
+}
+
+.theme-button {
+    background-color: var(--color-primary);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-button:hover {
+    background-color: transparent;
+    box-shadow: inset 0 0 0 1px var(--color-primary);
+    color: var(--color-primary);
+}
+
+.theme-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+body {
+    @apply bg-black;
+}
+
+button {
+    @apply cursor-pointer disabled:cursor-not-allowed;
+}
+
+.submitButton {
+    @apply px-6 py-2 rounded-md bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white font-medium flex items-center gap-2 transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.closeButton {
+    @apply px-6 py-2 rounded-md hover:bg-[var(--color-primary-hover)]/20 border border-[var(--color-border)] text-[var(--color-text-primary)] font-medium transition-all duration-200 flex items-center gap-2 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+svg[data-v-31904c38] {
+    transform: none !important;
+}
+
+/* SVG Icon */
+.icon {
+    @apply w-7 h-7 mr-3;
+}
+
+.submenuicon {
+    @apply w-4 h-4 mr-3;
+}
+
+input[type="search"] {
+    @apply w-full border-b-2 border-[var(--color-border)]/50  px-2 pt-3 pb-1 text-sm text-[var(--color-text-primary)] placeholder-transparent focus:border-[var(--color-border)] focus:outline-none;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+}
+
+input[type="text"],
+input[type="date"],
+input[type="password"],
+input[type="email"],
+input[type="number"],
+textarea,
+select {
+    @apply block w-full rounded-md border border-[var(--color-border)] 
+           bg-[var(--color-bg-secondary)] px-4 py-2.5 text-sm 
+           text-[var(--color-text-primary)] font-semibold 
+           placeholder-[var(--color-text-secondary)]
+           focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/70 
+           focus:border-[var(--color-primary)] transition-all duration-200 disabled:cursor-not-allowed;
+}
+
+/* Disable Edge's default password reveal button */
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+
+/* Disable Chrome's default password reveal button */
+input[type="password"]::-webkit-credentials-auto-fill-button {
+    display: none !important;
+}
+
+/* For modern browsers that might implement similar features */
+input[type="password"]::-webkit-textfield-decoration-container {
+    display: none;
+}
+
+/* Tailwind utility */
+input[type="number"] {
+    @apply appearance-none;
+}
+
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    @apply appearance-none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+    -moz-appearance: textfield; /* Firefox fallback */
+}
+/* Specific styles for select */
+select {
+    @apply appearance-none bg-no-repeat bg-[right_0.5rem_center]
+           hover:border-[var(--color-primary)]/50 cursor-pointer disabled:cursor-not-allowed;
+}
+
+/* Specific styles for textarea */
+textarea {
+    @apply resize-none min-h-[100px] leading-normal disabled:cursor-not-allowed;
+}
+
+/* Disabled and readonly states */
+/* input:disabled,
+select:disabled,
+textarea:disabled {
+    @apply opacity-70 cursor-not-allowed;
+} */
+
+/* input:read-only,
+textarea:read-only {
+    @apply bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] 
+           border-[var(--color-border)];
+} */
+
+/* Dark theme adjustments */
+.dark input,
+.dark select,
+.dark textarea {
+    @apply shadow-black/40;
+}
+
+.dark.green input,
+.dark.green select,
+.dark.green textarea {
+    @apply shadow-black/30;
+}
+
+/* Hide number input spinner arrows */
+.hide-arrows::-webkit-outer-spin-button,
+.hide-arrows::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.hide-arrows {
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.spinner_jCIR {
+    animation: spinner_B8Vq 0.9s linear infinite;
+    animation-delay: -0.9s;
+}
+.spinner_upm8 {
+    animation-delay: -0.8s;
+}
+.spinner_2eL5 {
+    animation-delay: -0.7s;
+}
+.spinner_Rp9l {
+    animation-delay: -0.6s;
+}
+.spinner_dy3W {
+    animation-delay: -0.5s;
+}
+@keyframes spinner_B8Vq {
+    0%,
+    66.66% {
+        animation-timing-function: cubic-bezier(0.36, 0.61, 0.3, 0.98);
+        y: 6px;
+        height: 12px;
+    }
+    33.33% {
+        animation-timing-function: cubic-bezier(0.36, 0.61, 0.3, 0.98);
+        y: 1px;
+        height: 22px;
+    }
+}
+
+.dashboard-grid {
+    @apply space-y-4 sm:space-y-6 p-3 sm:p-4;
+}
+
+.stats-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5;
+}
+
+.checks-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4 md:gap-5;
+}
+
+.charts-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 md:gap-5;
+}
+
+.chart-card {
+    @apply bg-[var(--color-bg-secondary)] border border-[var(--color-border)] rounded-xl p-3 sm:p-4 shadow-lg backdrop-blur-sm;
+}
+
+.chart-header {
+    @apply flex justify-between items-center mb-3 sm:mb-4;
+}
+
+.chart-header h3 {
+    @apply font-semibold text-[var(--color-text-primary)];
+}
+
+.chart-placeholder {
+    @apply h-80 sm:h-96 md:h-120 rounded-lg flex items-center justify-center text-[var(--color-text-secondary)] font-medium;
+}
+.pie-placeholder {
+    @apply h-80 sm:h-96 md:h-120 rounded-lg flex items-center justify-center text-[var(--color-text-secondary)] font-medium p-2;
+}
+
+.table-placeholder {
+    @apply h-80 sm:h-96 md:h-120 rounded-lg flex items-start justify-center text-[var(--color-text-secondary)] font-medium;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-scrollbar-track);
+}
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
