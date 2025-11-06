@@ -1,176 +1,79 @@
 <template>
-    <div
-        class="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50"
-    >
-        <Transition
-            enter-active-class="transition ease-out duration-200"
-            enter-from-class="opacity-0 scale-95"
-            enter-to-class="opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-100"
-            leave-from-class="opacity-100 scale-100"
-            leave-to-class="opacity-0 scale-95"
-        >
-            <SelectionTable
-                v-if="showSelectionTable"
-                :show="showSelectionTable"
-                :data="
-                    priceGroupResults.map((code) => ({
-                        label: code,
-                        value: code,
-                    }))
-                "
-                title="Select Price Group"
-                labelKey="label"
-                valueKey="value"
-                @submit="onSelectGroupcode"
-                @close="showSelectionTable = false"
-            />
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50">
+        <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100" leave-active-class="transition ease-in duration-100"
+            leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+            <SelectionTable v-if="showSelectionTable" :show="showSelectionTable" :data="priceGroupResults.map((code) => ({
+                label: code,
+                value: code,
+            }))
+                " title="Select Price Group" labelKey="label" valueKey="value" @submit="onSelectGroupcode"
+                @close="showSelectionTable = false" />
         </Transition>
 
-        <Transition
-            enter-active-class="transition ease-out duration-200"
-            enter-from-class="opacity-0 scale-95"
-            enter-to-class="opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-100"
-            leave-from-class="opacity-100 scale-100"
-            leave-to-class="opacity-0 scale-95"
-        >
-            <SelectionTable
-                v-if="showSelectionTablePacking"
-                :show="showSelectionTablePacking"
-                :data="packingOptions"
-                title="Select Packing Type"
-                @submit="onSelectPacking"
-                @close="showSelectionTablePacking = false"
-            />
+        <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100" leave-active-class="transition ease-in duration-100"
+            leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+            <SelectionTable v-if="showSelectionTablePacking" :show="showSelectionTablePacking" :data="packingOptions"
+                title="Select Packing Type" @submit="onSelectPacking" @close="showSelectionTablePacking = false" />
         </Transition>
 
-        <Transition
-            enter-active-class="transition ease-out duration-200"
-            enter-from-class="opacity-0 scale-95"
-            enter-to-class="opacity-100 scale-100"
-            leave-active-class="transition ease-in duration-100"
-            leave-from-class="opacity-100 scale-100"
-            leave-to-class="opacity-0 scale-95"
-        >
-            <SelectionTable
-                v-if="showSelectionTableStatus"
-                :show="showSelectionTableStatus"
-                :data="statusOptions"
-                title="Select Status"
-                @submit="onSelectStatus"
-                @close="showSelectionTableStatus = false"
-            />
+        <Transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 scale-95"
+            enter-to-class="opacity-100 scale-100" leave-active-class="transition ease-in duration-100"
+            leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+            <SelectionTable v-if="showSelectionTableStatus" :show="showSelectionTableStatus" :data="statusOptions"
+                title="Select Status" @submit="onSelectStatus" @close="showSelectionTableStatus = false" />
         </Transition>
 
         <ToastAlertWarning :show="showToast" :message="toastMessage" />
         <!-- Modal Container -->
-        <div
-            class="w-full max-w-6xl rounded-2xl bg-[var(--color-bg-secondary)] border border-[var(--color-border)]"
-        >
+        <div class="w-full max-w-6xl rounded-2xl bg-[var(--color-bg-secondary)] border border-[var(--color-border)]">
             <!-- Content -->
             <div class="p-6">
                 <!-- Header -->
                 <div class="mb-6 text-center">
-                    <h2
-                        class="text-2xl font-bold text-[var(--color-text-primary)] tracking-wide"
-                    >
+                    <h2 class="text-2xl font-bold text-[var(--color-text-primary)] tracking-wide">
                         ITEM PRICE AND PACKING
                     </h2>
-                    <div
-                        class="mt-2 h-0.5 bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent"
-                    ></div>
+                    <div class="mt-2 h-0.5 bg-gradient-to-r from-transparent via-[var(--color-border)] to-transparent">
+                    </div>
                 </div>
                 <!-- Form & Table -->
                 <form @submit.prevent="submit">
                     <!-- Show spinner while loading -->
-                    <div
-                        v-if="isLoading"
-                        class="flex justify-center items-center py-20"
-                    >
-                        <svg
-                            width="40"
-                            height="40"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="var(--color-icon)"
-                        >
-                            <rect
-                                class="spinner_jCIR"
-                                x="1"
-                                y="6"
-                                width="2.8"
-                                height="12"
-                            />
-                            <rect
-                                class="spinner_jCIR spinner_upm8"
-                                x="5.8"
-                                y="6"
-                                width="2.8"
-                                height="12"
-                            />
-                            <rect
-                                class="spinner_jCIR spinner_2eL5"
-                                x="10.6"
-                                y="6"
-                                width="2.8"
-                                height="12"
-                            />
-                            <rect
-                                class="spinner_jCIR spinner_Rp9l"
-                                x="15.4"
-                                y="6"
-                                width="2.8"
-                                height="12"
-                            />
-                            <rect
-                                class="spinner_jCIR spinner_dy3W"
-                                x="20.2"
-                                y="6"
-                                width="2.8"
-                                height="12"
-                            />
+                    <div v-if="isLoading" class="flex justify-center items-center py-20">
+                        <svg width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
+                            fill="var(--color-icon)">
+                            <rect class="spinner_jCIR" x="1" y="6" width="2.8" height="12" />
+                            <rect class="spinner_jCIR spinner_upm8" x="5.8" y="6" width="2.8" height="12" />
+                            <rect class="spinner_jCIR spinner_2eL5" x="10.6" y="6" width="2.8" height="12" />
+                            <rect class="spinner_jCIR spinner_Rp9l" x="15.4" y="6" width="2.8" height="12" />
+                            <rect class="spinner_jCIR spinner_dy3W" x="20.2" y="6" width="2.8" height="12" />
                         </svg>
                     </div>
 
                     <!-- Show table after data is loaded -->
-                    <div
-                        v-else
-                        class="rounded-xl bg-[var(--color-primary)]/20 backdrop-blur-sm"
-                    >
+                    <div v-else class="rounded-xl bg-[var(--color-primary)]/20 backdrop-blur-sm">
                         <div class="sticky top-0 z-10 px-2">
-                            <table
-                                class="w-full text-[var(--color-text-primary)] text-sm"
-                            >
+                            <table class="w-full text-[var(--color-text-primary)] text-sm">
                                 <thead>
-                                    <tr
-                                        class="text-sm uppercase tracking-wider text-[var(--color-text-primary)]"
-                                    >
+                                    <tr class="text-sm uppercase tracking-wider text-[var(--color-text-primary)]">
                                         <th class="px-4 py-3 text-left w-[20%]">
                                             Group Code
                                         </th>
                                         <th class="px-4 py-3 text-left w-[20%]">
                                             Packing
                                         </th>
-                                        <th
-                                            class="px-4 py-3 text-center w-[15%]"
-                                        >
+                                        <th class="px-4 py-3 text-center w-[15%]">
                                             Price
                                         </th>
-                                        <th
-                                            class="px-4 py-3 text-center w-[15%]"
-                                        >
+                                        <th class="px-4 py-3 text-center w-[15%]">
                                             Quantity
                                         </th>
-                                        <th
-                                            class="px-4 py-3 text-center w-[15%]"
-                                        >
+                                        <th class="px-4 py-3 text-center w-[15%]">
                                             Status
                                         </th>
-                                        <th
-                                            v-if="canUpdate('0104-ITMPCK')"
-                                            class="px-4 py-3 text-center w-[20%]"
-                                        >
+                                        <th v-if="canUpdate('0104-ITMPCK')" class="px-4 py-3 text-center w-[20%]">
                                             Action
                                         </th>
                                     </tr>
@@ -179,45 +82,31 @@
                         </div>
                         <div class="relative">
                             <div
-                                class="overflow-y-auto max-h-[220px] scrollbar-thin scrollbar-stable [scrollbar-gutter:stable] pl-2 pb-2"
-                            >
-                                <table
-                                    class="w-full text-[var(--color-text-primary)] text-sm"
-                                >
+                                class="overflow-y-auto max-h-[220px] scrollbar-thin scrollbar-stable [scrollbar-gutter:stable] pl-2 pb-2">
+                                <table class="w-full text-[var(--color-text-primary)] text-sm">
                                     <tbody class="rounded-xl">
-                                        <tr
-                                            v-for="(row, index) in rows"
-                                            :key="index"
-                                            :class="[
-                                                'transition-all duration-300 ease-in-out rounded-md',
-                                                editingIndex === index
-                                                    ? 'bg-[var(--color-primary)]/20 border border-[var(--color-border)]'
-                                                    : '',
-                                                isMatchingRow(row, index)
-                                                    ? '!border-red-500 !bg-red-500/10'
-                                                    : '',
-                                                index === rows.length - 1 &&
+                                        <tr v-for="(row, index) in rows" :key="index" :class="[
+                                            'transition-all duration-300 ease-in-out rounded-md',
+                                            editingIndex === index
+                                                ? 'bg-[var(--color-primary)]/20 border border-[var(--color-border)]'
+                                                : '',
+                                            isMatchingRow(row, index)
+                                                ? '!border-red-500 !bg-red-500/10'
+                                                : '',
+                                            index === rows.length - 1 &&
                                                 index !== 0
-                                                    ? 'animate-fade-in'
-                                                    : '',
-                                            ]"
-                                        >
+                                                ? 'animate-fade-in'
+                                                : '',
+                                        ]">
                                             <!-- Group Code -->
                                             <td class="px-4 py-3 w-[20%]">
                                                 <div class="relative">
-                                                    <input
-                                                        v-if="
-                                                            editingIndex ===
-                                                            index
-                                                        "
-                                                        v-model="row.groupcode"
-                                                        type="text"
-                                                        @click="
-                                                            openSelection(index)
-                                                        "
-                                                        readonly
-                                                        class="cursor-pointer"
-                                                        :class="[
+                                                    <input v-if="
+                                                        editingIndex ===
+                                                        index
+                                                    " v-model="row.groupcode" type="text" @click="
+                                                        openSelection(index)
+                                                        " readonly class="cursor-pointer" :class="[
                                                             row.groupcode
                                                                 ? 'border-[var(--color-border)]'
                                                                 : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
@@ -226,56 +115,40 @@
                                                             )
                                                                 ? '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10'
                                                                 : '',
-                                                        ]"
-                                                        placeholder="Click To Select"
-                                                    />
+                                                        ]" placeholder="Click To Select" />
                                                     <span v-else>{{
                                                         row.groupcode
-                                                    }}</span>
+                                                        }}</span>
 
                                                     <!-- Clear button -->
-                                                    <button
-                                                        type="button"
-                                                        v-if="
-                                                            editingIndex ===
-                                                                index &&
-                                                            row.groupcode &&
-                                                            !row.saved
-                                                        "
-                                                        @click.stop="
-                                                            clearGroupcode(
-                                                                index
-                                                            )
+                                                    <button type="button" v-if="
+                                                        editingIndex ===
+                                                        index &&
+                                                        row.groupcode &&
+                                                        !row.saved
+                                                    " @click.stop="
+                                                        clearGroupcode(
+                                                            index
+                                                        )
                                                         "
                                                         class="absolute top-1/2 right-2 transform -translate-y-1/2 text-[var(--color-text-primary)]"
-                                                        title="Clear"
-                                                    >
-                                                        <svg-icon
-                                                            type="mdi"
-                                                            :path="mdiClose"
-                                                            class="w-4 h-4 hover:text-red-500"
-                                                        />
+                                                        title="Clear">
+                                                        <svg-icon type="mdi" :path="mdiClose"
+                                                            class="w-4 h-4 hover:text-red-500" />
                                                     </button>
                                                 </div>
                                             </td>
                                             <!-- Packing -->
                                             <td class="px-4 py-3 w-[20%]">
                                                 <div class="relative">
-                                                    <input
-                                                        v-if="
-                                                            editingIndex ===
+                                                    <input v-if="
+                                                        editingIndex ===
+                                                        index
+                                                    " v-model="row.packing" type="text" @click="
+                                                        openSelectionPacking(
                                                             index
-                                                        "
-                                                        v-model="row.packing"
-                                                        type="text"
-                                                        @click="
-                                                            openSelectionPacking(
-                                                                index
-                                                            )
-                                                        "
-                                                        readonly
-                                                        class="cursor-pointer"
-                                                        :class="[
+                                                        )
+                                                        " readonly class="cursor-pointer" :class="[
                                                             row.packing
                                                                 ? 'border-[var(--color-border)]'
                                                                 : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
@@ -284,223 +157,140 @@
                                                             )
                                                                 ? '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10'
                                                                 : '',
-                                                        ]"
-                                                        placeholder="Click To Select"
-                                                    />
+                                                        ]" placeholder="Click To Select" />
                                                     <span v-else>{{
                                                         row.packing
-                                                    }}</span>
+                                                        }}</span>
 
                                                     <!-- Clear button -->
-                                                    <button
-                                                        type="button"
-                                                        v-if="
-                                                            editingIndex ===
-                                                                index &&
-                                                            row.packing &&
-                                                            !row.saved
-                                                        "
-                                                        @click.stop="
-                                                            clearPacking(index)
+                                                    <button type="button" v-if="
+                                                        editingIndex ===
+                                                        index &&
+                                                        row.packing &&
+                                                        !row.saved
+                                                    " @click.stop="
+                                                        clearPacking(index)
                                                         "
                                                         class="absolute top-1/2 right-2 transform -translate-y-1/2 text-[var(--color-text-primary)]"
-                                                        title="Clear"
-                                                    >
-                                                        <svg-icon
-                                                            type="mdi"
-                                                            :path="mdiClose"
-                                                            class="w-4 h-4 hover:text-red-500"
-                                                        />
+                                                        title="Clear">
+                                                        <svg-icon type="mdi" :path="mdiClose"
+                                                            class="w-4 h-4 hover:text-red-500" />
                                                     </button>
                                                 </div>
                                             </td>
 
                                             <!-- Price -->
-                                            <td
-                                                class="px-4 py-3 text-right w-[15%]"
-                                            >
-                                                <input
-                                                    v-if="
-                                                        editingIndex === index
-                                                    "
-                                                    v-model="row.price"
-                                                    type="number"
-                                                    inputmode="decimal"
-                                                    min="0"
-                                                    step="any"
-                                                    :class="[
+                                            <td class="px-4 py-3 text-right w-[15%]">
+                                                <input v-if="
+                                                    editingIndex === index
+                                                " v-model="row.price" type="number" inputmode="decimal" min="0"
+                                                    step="any" :class="[
                                                         row.price
                                                             ? 'border-[var(--color-border)]'
                                                             : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
-                                                    ]"
-                                                    placeholder="0.00"
-                                                />
+                                                    ]" placeholder="0.00" />
                                                 <span v-else>{{
                                                     row.price
-                                                }}</span>
+                                                    }}</span>
                                             </td>
 
                                             <!-- Quantity -->
-                                            <td
-                                                class="px-4 py-3 text-right w-[15%]"
-                                            >
-                                                <input
-                                                    v-if="
-                                                        editingIndex === index
-                                                    "
-                                                    v-model="row.quantity"
-                                                    type="number"
-                                                    inputmode="numeric"
-                                                    min="0"
-                                                    step="1"
-                                                    :class="[
+                                            <td class="px-4 py-3 text-right w-[15%]">
+                                                <input v-if="
+                                                    editingIndex === index
+                                                " v-model="row.quantity" type="number" inputmode="numeric" min="0"
+                                                    step="1" :class="[
                                                         row.quantity
                                                             ? 'border-[var(--color-border)]'
                                                             : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
-                                                    ]"
-                                                    placeholder="0"
-                                                />
+                                                    ]" placeholder="0" />
                                                 <span v-else>{{
                                                     row.quantity
-                                                }}</span>
+                                                    }}</span>
                                             </td>
 
                                             <!-- Status -->
-                                            <td
-                                                class="px-4 py-3 text-center w-[15%]"
-                                            >
+                                            <td class="px-4 py-3 text-center w-[15%]">
                                                 <div class="relative">
-                                                    <input
-                                                        v-if="
-                                                            editingIndex ===
+                                                    <input v-if="
+                                                        editingIndex ===
+                                                        index
+                                                    " v-model="row.status" type="text" @click="
+                                                        openSelectionStatus(
                                                             index
-                                                        "
-                                                        v-model="row.status"
-                                                        type="text"
-                                                        @click="
-                                                            openSelectionStatus(
-                                                                index
-                                                            )
-                                                        "
-                                                        readonly
-                                                        class="cursor-pointer"
-                                                        :class="[
+                                                        )
+                                                        " readonly class="cursor-pointer" :class="[
                                                             row.status
                                                                 ? 'border-[var(--color-border)]'
                                                                 : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
-                                                        ]"
-                                                        placeholder="Click To Select"
-                                                    />
+                                                        ]" placeholder="Click To Select" />
                                                     <span v-else>{{
                                                         row.status
-                                                    }}</span>
+                                                        }}</span>
 
                                                     <!-- Clear button -->
-                                                    <button
-                                                        type="button"
-                                                        v-if="
-                                                            editingIndex ===
-                                                                index &&
-                                                            row.status &&
-                                                            !row.saved
-                                                        "
-                                                        @click.stop="
-                                                            clearStatus(index)
+                                                    <button type="button" v-if="
+                                                        editingIndex ===
+                                                        index &&
+                                                        row.status &&
+                                                        !row.saved
+                                                    " @click.stop="
+                                                        clearStatus(index)
                                                         "
                                                         class="absolute top-1/2 right-2 transform -translate-y-1/2 text-[var(--color-text-primary)]"
-                                                        title="Clear"
-                                                    >
-                                                        <svg-icon
-                                                            type="mdi"
-                                                            :path="mdiClose"
-                                                            class="w-4 h-4 hover:text-red-500"
-                                                        />
+                                                        title="Clear">
+                                                        <svg-icon type="mdi" :path="mdiClose"
+                                                            class="w-4 h-4 hover:text-red-500" />
                                                     </button>
                                                 </div>
                                             </td>
 
                                             <!-- Actions -->
-                                            <td
-                                                v-if="canUpdate('0104-ITMPCK')"
-                                                class="px-4 py-3 flex justify-center items-center gap-2 w-full"
-                                            >
+                                            <td v-if="canUpdate('0104-ITMPCK')"
+                                                class="px-4 py-3 flex justify-center items-center gap-2 w-full">
                                                 <!-- Save -->
-                                                <button
-                                                    v-if="
-                                                        editingIndex === index
-                                                    "
-                                                    @click.prevent="
-                                                        saveRow(index)
-                                                    "
-                                                    title="Save"
-                                                    class="bg-blue-600 hover:bg-blue-700 cursor-pointer text-white p-1.5 rounded-full transition group"
-                                                >
-                                                    <div
-                                                        class="flex justify-center items-center gap-2"
-                                                    >
+                                                <button v-if="
+                                                    editingIndex === index
+                                                " @click.prevent="
+                                                    saveRow(index)
+                                                    " title="Save"
+                                                    class="bg-blue-600 hover:bg-blue-700 cursor-pointer text-white p-1.5 rounded-full transition group">
+                                                    <div class="flex justify-center items-center gap-2">
                                                         <span
-                                                            class="transition-transform duration-300 group-hover:rotate-360"
-                                                        >
-                                                            <svg-icon
-                                                                type="mdi"
-                                                                :path="mdiCheck"
-                                                                class="w-4 h-4"
-                                                            />
+                                                            class="transition-transform duration-300 group-hover:rotate-360">
+                                                            <svg-icon type="mdi" :path="mdiCheck" class="w-4 h-4" />
                                                         </span>
                                                     </div>
                                                 </button>
 
                                                 <!-- Edit -->
-                                                <button
-                                                    v-else
-                                                    @click.prevent="
-                                                        editRow(index)
-                                                    "
-                                                    title="Edit"
-                                                    class="bg-green-600 hover:bg-green-700 cursor-pointer text-white p-1.5 rounded-full transition group"
-                                                >
-                                                    <div
-                                                        class="flex justify-center items-center gap-2"
-                                                    >
+                                                <button v-else @click.prevent="
+                                                    editRow(index)
+                                                    " title="Edit"
+                                                    class="bg-green-600 hover:bg-green-700 cursor-pointer text-white p-1.5 rounded-full transition group">
+                                                    <div class="flex justify-center items-center gap-2">
                                                         <span
-                                                            class="transition-transform duration-300 group-hover:rotate-360"
-                                                        >
-                                                            <svg-icon
-                                                                type="mdi"
-                                                                :path="
-                                                                    mdiPencil
-                                                                "
-                                                                class="w-4 h-4"
-                                                            />
+                                                            class="transition-transform duration-300 group-hover:rotate-360">
+                                                            <svg-icon type="mdi" :path="mdiPencil
+                                                                " class="w-4 h-4" />
                                                         </span>
                                                     </div>
                                                 </button>
 
                                                 <!-- Delete -->
-                                                <button
-                                                    v-if="
-                                                        editingIndex !==
-                                                            index &&
-                                                        index !==
-                                                            rows.length - 1
-                                                    "
-                                                    @click.prevent="
-                                                        deleteRow(index)
-                                                    "
-                                                    title="Delete"
-                                                    class="bg-red-600 hover:bg-red-700 cursor-pointer text-white p-1.5 rounded-full transition group"
-                                                >
-                                                    <div
-                                                        class="flex justify-center items-center gap-2"
-                                                    >
+                                                <button v-if="
+                                                    editingIndex !==
+                                                    index &&
+                                                    index !==
+                                                    rows.length - 1
+                                                " @click.prevent="
+                                                    deleteRow(index)
+                                                    " title="Delete"
+                                                    class="bg-red-600 hover:bg-red-700 cursor-pointer text-white p-1.5 rounded-full transition group">
+                                                    <div class="flex justify-center items-center gap-2">
                                                         <span
-                                                            class="transition-transform duration-300 group-hover:rotate-180"
-                                                        >
-                                                            <svg-icon
-                                                                type="mdi"
-                                                                :path="mdiClose"
-                                                                class="w-4 h-4"
-                                                            />
+                                                            class="transition-transform duration-300 group-hover:rotate-180">
+                                                            <svg-icon type="mdi" :path="mdiClose" class="w-4 h-4" />
                                                         </span>
                                                     </div>
                                                 </button>
@@ -513,51 +303,23 @@
                     </div>
                     <div class="pt-2 border-t border-white/10">
                         <div class="flex justify-end gap-3">
-                            <button
-                                type="button"
-                                @click="closeModal"
-                                class="closeButton group"
-                            >
-                                <div
-                                    class="flex justify-center items-center gap-2"
-                                >
-                                    <span
-                                        class="transition-transform duration-300 group-hover:rotate-180"
-                                    >
-                                        <svg-icon
-                                            type="mdi"
-                                            :path="mdiClose"
-                                            class="w-5 h-5"
-                                        />
+                            <button type="button" @click="closeModal" class="closeButton group">
+                                <div class="flex justify-center items-center gap-2">
+                                    <span class="transition-transform duration-300 group-hover:rotate-180">
+                                        <svg-icon type="mdi" :path="mdiClose" class="w-5 h-5" />
                                     </span>
                                     Close
                                 </div>
                             </button>
-                            <button
-                                v-if="canUpdate('0104-ITMPCK')"
-                                type="submit"
-                                class="submitButton group"
-                                :disabled="
-                                    form.processing ||
-                                    editingIndex !== rows.length - 1 ||
-                                    !hasAtLeastOneRow
-                                "
-                            >
-                                <div
-                                    class="flex justify-center items-center gap-2"
-                                >
-                                    <span
-                                        class="transition-transform duration-300 group-hover:rotate-405"
-                                    >
-                                        <svg-icon
-                                            type="mdi"
-                                            :path="mdiNavigationVariantOutline"
-                                            class="w-5 h-5"
-                                        />
+                            <button v-if="canUpdate('0104-ITMPCK')" type="submit" class="submitButton group" :disabled="form.processing ||
+                                editingIndex !== rows.length - 1 ||
+                                !hasAtLeastOneRow
+                                ">
+                                <div class="flex justify-center items-center gap-2">
+                                    <span class="transition-transform duration-300 group-hover:rotate-405">
+                                        <svg-icon type="mdi" :path="mdiNavigationVariantOutline" class="w-5 h-5" />
                                     </span>
-                                    <span v-if="form.processing"
-                                        >Submitting...</span
-                                    >
+                                    <span v-if="form.processing">Submitting...</span>
                                     <span v-else>Submit</span>
                                 </div>
                             </button>
@@ -714,7 +476,11 @@ const openSelection = async (index) => {
 //PACKING
 const fetchPacking = async () => {
     try {
-        const response = await axios.get(route("getPackingTypes"));
+        const response = await axios.get(route("getPackingTypes"), {
+            params: {
+                itemId: props.itemID
+            }
+        });
 
         packingOptions.value = response.data;
     } catch (error) {
@@ -948,6 +714,7 @@ const isMatchingRow = (row, index) => {
         opacity: 0;
         transform: translateY(10px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);

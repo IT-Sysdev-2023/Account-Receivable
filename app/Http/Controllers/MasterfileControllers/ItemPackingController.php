@@ -19,7 +19,6 @@ class ItemPackingController extends Controller
         );
     }
 
-
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -87,9 +86,15 @@ class ItemPackingController extends Controller
         $itemPacking->delete();
     }
 
-    public function getPackingTypes()
+    public function getPackingTypes(Request $request)
     {
-        $types = PackingType::pluck('packing_type');
-        return response()->json($types);
+        $item = Item::findOrFail($request->itemId);
+
+        // Now packing is already an array — no need for json_decode
+        $packingList = PackingType::whereIn('id', $item->packing ?? [])->pluck('packing_type')->toArray();
+
+        $item->packingList = $packingList;
+        // dd($item->packingList);
+        return response()->json($item->packingList);
     }
 }

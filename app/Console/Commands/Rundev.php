@@ -35,7 +35,7 @@ class RunDev extends Command
         $laravelProcess->start();
 
         $this->info('Starting npm dev server...');
-        $npmDevProcess = Process::fromShellCommandline("npm run dev -- --host $host");
+        $npmDevProcess = Process::fromShellCommandline("pnpm run dev -- --host $host");
         $npmDevProcess->start();
 
         $this->info('Starting Reverb server...');

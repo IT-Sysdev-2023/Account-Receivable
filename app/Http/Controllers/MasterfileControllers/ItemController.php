@@ -157,6 +157,7 @@ class ItemController extends Controller
 
     public function updateItem(Request $request)
     {
+        // dd($request->all());
         $fields = $request->validate(
             [
                 'item_photo' => ['nullable', 'image'],
@@ -166,6 +167,7 @@ class ItemController extends Controller
                 'description' => ['required', 'string'],
                 'type' => ['required', 'string'],
                 'acc_code' => ['required', 'string'],
+                'packing' => ['required','nullable']
             ],
             [
                 'code.unique' => 'This code already exists.',
@@ -208,6 +210,8 @@ class ItemController extends Controller
         }
 
         $fields['created_by'] =  $request->user()->name;
+        $fields['packing'] = $request->packing ?? [];
+        dd($fields);
         $item->update($fields);
 
         event(new NewCreated('item'));
@@ -260,7 +264,7 @@ class ItemController extends Controller
             ->where('groupcode', $price_group)
             ->where('status', 'Available')
             ->get();
-
+        // dd($list);
         return response()->json($list);
     }
 

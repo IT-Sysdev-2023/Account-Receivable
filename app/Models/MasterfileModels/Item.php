@@ -16,7 +16,12 @@ class Item extends Model
         'description',
         'type',
         'acc_code',
+        'packing',
         'created_by',
+    ];
+
+    protected $casts = [
+        'packing' => 'array',
     ];
 
     public function packings()

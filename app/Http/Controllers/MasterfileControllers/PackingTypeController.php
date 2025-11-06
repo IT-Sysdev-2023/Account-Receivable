@@ -70,4 +70,9 @@ class PackingTypeController extends Controller
     {
         return PackingType::orderByDesc('id')->value('sequence_no'); // returns "B001" or null
     }
+
+    public function packingTypeList()
+    {
+        return PackingType::get();
+    }
 }

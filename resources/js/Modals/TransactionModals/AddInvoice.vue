@@ -187,19 +187,19 @@
                                                                 editingIndex ===
                                                                 index
                                                             " v-model="row.item_code
-                                                                    " type="text" @click="
+                                                                " type="text" @click="
                                                                     openItemCodeSelection(
                                                                         index
                                                                     )
                                                                     " readonly :class="[
-                                                                    'cursor-pointer',
-                                                                    row.item_code
-                                                                        ? 'border-[var(--color-border)]'
-                                                                        : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
-                                                                ]" placeholder="Click To Select" />
+                                                                        'cursor-pointer',
+                                                                        row.item_code
+                                                                            ? 'border-[var(--color-border)]'
+                                                                            : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
+                                                                    ]" placeholder="Click To Select" />
                                                             <span v-else>{{
                                                                 row.item_code
-                                                                }}</span>
+                                                            }}</span>
 
                                                             <!-- Clear button -->
                                                             <button type="button" v-if="
@@ -208,10 +208,10 @@
                                                                 row.item_code &&
                                                                 !row.saved
                                                             " @click.stop="
-                                                                    clearItemCode(
-                                                                        index
-                                                                    )
-                                                                    "
+                                                                clearItemCode(
+                                                                    index
+                                                                )
+                                                                "
                                                                 class="absolute top-1/2 right-2 transform -translate-y-1/2 text-[var(--color-text-primary)]"
                                                                 title="Clear">
                                                                 <svg-icon type="mdi" :path="mdiClose
@@ -225,14 +225,14 @@
                                                             editingIndex ===
                                                             index
                                                         " v-model="row.item_name
-                                                                " type="text" readonly="true" disabled="true" :class="[
+                                                            " type="text" readonly="true" disabled="true" :class="[
                                                                 row.item_name
                                                                     ? 'border-[var(--color-border)]'
                                                                     : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
                                                             ]" />
                                                         <span v-else>{{
                                                             row.item_name
-                                                            }}</span>
+                                                        }}</span>
                                                     </td>
                                                     <!-- Packing -->
                                                     <td class="px-2 py-1 w-[15%]">
@@ -241,30 +241,30 @@
                                                                 editingIndex ===
                                                                 index
                                                             " v-model="row.packing
-                                                                    " type="text" @click="
+                                                                " type="text" @click="
                                                                     openPackingSelection(
                                                                         index
                                                                     )
                                                                     " readonly :disabled="!row
                                                                         .item_code[
-                                                                    index
-                                                                    ]
-                                                                    " :class="[
-                                                                    'cursor-pointer',
-                                                                    row.packing
-                                                                        ? 'border-[var(--color-border)]'
-                                                                        : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
-                                                                ]" :placeholder="[
-                                                                    !row
-                                                                        .item_code[
                                                                         index
                                                                     ]
-                                                                        ? 'Item Code Required'
-                                                                        : 'Click To Select',
-                                                                ]" />
+                                                                        " :class="[
+                                                                                'cursor-pointer',
+                                                                                row.packing
+                                                                                    ? 'border-[var(--color-border)]'
+                                                                                    : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
+                                                                            ]" :placeholder="[
+                                                                            !row
+                                                                                .item_code[
+                                                                                index
+                                                                            ]
+                                                                                ? 'Item Code Required'
+                                                                                : 'Click To Select',
+                                                                        ]" />
                                                             <span v-else>{{
                                                                 row.packing
-                                                                }}</span>
+                                                            }}</span>
 
                                                             <!-- Clear button -->
                                                             <button type="button" v-if="
@@ -273,10 +273,10 @@
                                                                 row.packing &&
                                                                 !row.saved
                                                             " @click.stop="
-                                                                    clearPacking(
-                                                                        index
-                                                                    )
-                                                                    "
+                                                                clearPacking(
+                                                                    index
+                                                                )
+                                                                "
                                                                 class="absolute top-1/2 right-2 transform -translate-y-1/2 text-[var(--color-text-primary)]"
                                                                 title="Clear">
                                                                 <svg-icon type="mdi" :path="mdiClose
@@ -291,28 +291,28 @@
                                                             editingIndex ===
                                                             index
                                                         " :ref="(el) =>
-                                                                    setQuantityInputRef(
-                                                                        el,
+                                                            setQuantityInputRef(
+                                                                el,
+                                                                index
+                                                            )
+                                                            " v-model="row.quantity
+                                                                " @input="
+                                                                    updateAmount(
                                                                         index
                                                                     )
-                                                                " v-model="row.quantity
-                                                                " @input="
-                                                                updateAmount(
-                                                                    index
-                                                                )
-                                                                " type="number" inputmode="numeric" min="0" step="1"
-                                                            :readonly="!row.packing
+                                                                    " type="number" inputmode="numeric" min="0"
+                                                            step="1" :readonly="!row.packing
                                                                 " :placeholder="row.packing
                                                                     ? '0'
                                                                     : ''
-                                                                " :class="[
-                                                                row.quantity
-                                                                    ? 'border-[var(--color-border)]'
-                                                                    : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
-                                                            ]" />
+                                                                    " :class="[
+                                                                        row.quantity
+                                                                            ? 'border-[var(--color-border)]'
+                                                                            : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
+                                                                    ]" />
                                                         <span v-else>{{
                                                             row.quantity
-                                                            }}</span>
+                                                        }}</span>
                                                     </td>
 
                                                     <!-- Price -->
@@ -329,7 +329,7 @@
                                                             ]" />
                                                         <span v-else>{{
                                                             row.price
-                                                            }}</span>
+                                                        }}</span>
                                                     </td>
 
                                                     <!-- Amount -->
@@ -343,14 +343,14 @@
                                                                     ? 'border-[var(--color-border)]'
                                                                     : '!border-red-400 !ring-2 !ring-red-500/50 bg-red-900/10',
                                                             ]" :placeholder="row.packing
-                                                                    ? formatCurrency(
-                                                                        0.0
-                                                                    )
-                                                                    : ''
+                                                                ? formatCurrency(
+                                                                    0.0
+                                                                )
+                                                                : ''
                                                                 " />
                                                         <span v-else>{{
                                                             row.amount
-                                                            }}</span>
+                                                        }}</span>
                                                     </td>
 
                                                     <!-- Actions -->
@@ -362,10 +362,10 @@
                                                                 index &&
                                                                 !row.saved
                                                             " @click.prevent="
-                                                                    saveRow(
-                                                                        index
-                                                                    )
-                                                                    " title="Save"
+                                                                saveRow(
+                                                                    index
+                                                                )
+                                                                " title="Save"
                                                                 class="bg-blue-600 hover:bg-blue-700 cursor-pointer text-white p-1.5 rounded-full transition group">
                                                                 <div class="flex justify-center items-center gap-2">
                                                                     <span

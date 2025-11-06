@@ -145,6 +145,8 @@ Route::prefix('')->group(
             Route::put('/editPackingType/{id}', [PackingTypeController::class, 'editPackingType'])->name('editPackingType');
             Route::delete('/deletePackingType/{id}', [PackingTypeController::class, 'destroy'])->name('deletePackingType');
             Route::get('/getlatestPackingType', [PackingTypeController::class, 'latest'])->name('getlatestPackingType');
+            Route::get('/packingTypeList', [PackingTypeController::class, 'packingTypeList'])->name('packingTypeList');
+
             //Shortage Amount
             Route::get('/shortageamount', [ShortageAmountController::class, 'index'])->middleware('check.permission:0109-SAMNT,view')->name('shortageamount');
             Route::post('/addShortageAmount', [ShortageAmountController::class, 'addShortageAmount'])->name('addShortageAmount');
@@ -332,10 +334,11 @@ Route::prefix('')->group(
             Route::get('fetch-price-group', [GlobalApiController::class, 'fetchPriceGroup'])->name('fetchPriceGroup');
             Route::get('fetch-account-code-list', [GlobalApiController::class, 'accountCodeList'])->name('accountCodeList');
             Route::get('fetch-customer-code-list', [GlobalApiController::class, 'customerCodeList'])->name('customerCodeList');
+
+
         });
     }
 );
-
 
 // API ROUTES (External systems call these)
 Route::prefix('api')
@@ -357,17 +360,3 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/session-expired', function () {
     return Inertia::render('SessionExpire');
 })->name('session.expired');
-
-// Route::fallback(function () {
-//     return Inertia::render('PageNotFound');
-// })->name('404');
-
-
-// Route::middleware('api', 'throttle:10,1')->group(function () {
-//     Route::get('/api/iceplant/cash-in-bank', [CashInBankController::class, 'cashInBankListAPI']); //API LINK
-//     Route::get('/api/iceplant/getlatestpaymentno', [PaymentController::class, 'latest']);
-//     Route::post('/api/iceplant/insertcustomerledger', [CustomerLedgerController::class, 'store']);
-//     Route::put('/api/iceplant/updatecustomerledger', [CustomerLedgerController::class, 'update']);
-//     Route::post('/api/iceplant/insertpayment', [PaymentController::class, 'storePaymentAPI']);
-//     Route::get('/api/iceplant/get-customerledger-list', [CustomerLedgerController::class, 'getCustomerLedgerList']);
-// });

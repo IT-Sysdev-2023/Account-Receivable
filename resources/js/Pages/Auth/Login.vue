@@ -49,13 +49,15 @@
                             <TextInput label="Password" v-model="form.password" type="password"
                                 :message="form.errors.password"
                                 icon="M12 1a11 11 0 0 0-11 11c0 3.55 1.61 6.74 4.16 8.84l.16.12V21h1.67l.34-.16c1.44-.72 3.08-1.16 4.83-1.16s3.39.44 4.83 1.16l.34.16H23v-1.04l.16-.12C25.39 18.74 27 15.55 27 12a11 11 0 0 0-11-11zm0 2a9 9 0 0 1 9 9c0 2.38-1.19 4.47-3 5.74V17a7 7 0 0 0-12-4.94A7 7 0 0 0 6 17v1.74A8.985 8.985 0 0 1 3 12a9 9 0 0 1 9-9zm0 6a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
+
                             <label class="block text-sm font-medium text-[var(--color-text-secondary)] mb-2"
-                                for="">Select Business Units</label>
+                                for="">Select Business Units
+                            </label>
                             <div class="flex items-center gap-2">
-                                <select :disabled="!form.username && !form.password" class="disabled-cursor-not-allowed"
+                                <select
                                     v-model="form.business_unit" placeholder="Select a business unit">
                                     <option v-for="bu in businessUnits" :key="bu.id" :value="bu.id">{{ bu.business_unit
-                                    }} -
+                                        }} -
                                         {{ bu.business_unit_code }}</option>
                                 </select>
                                 <div v-if="form.business_unit">
@@ -96,7 +98,7 @@
                                 </svg>
                                 <span>{{
                                     form.processing ? "Logging in..." : "Log In"
-                                }}</span>
+                                    }}</span>
                             </span>
                         </button>
                     </form>
@@ -156,6 +158,7 @@ const checkSelectedBu = async () => {
         }
     } catch (err) {
         showWarningToast(err.response?.data?.error);
+        showSuccess.value = false;
     }
 };
 

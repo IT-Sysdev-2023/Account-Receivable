@@ -24,6 +24,23 @@ class BusinessUnitController extends Controller
     {
         $businessUnit = BusinessUnit::findOrFail($id);
 
+        // 1. Always forget the old session
+        session()->forget([
+            'dashboard_path',
+            'bu_id',
+            'database',
+            'host',
+            'port',
+            'username',
+            'password',
+            'business_unit',
+            'business_unit_code'
+        ]);
+
+        // 2. Clear previous DB connection from cache
+        DB::purge('business_unit');
+
+        // 3. Set new config dynamically
         Config::set('database.connections.business_unit', [
             'driver' => 'mysql',
             'dashboard_path' => $businessUnit->dashboard_path,
@@ -43,9 +60,13 @@ class BusinessUnitController extends Controller
         ]);
 
         try {
+            // 4. Force Laravel to reconnect using new config
+            DB::reconnect('business_unit');
+
+            // Test the new connection
             DB::connection('business_unit')->getPdo();
 
-            // This only set session if the connection is successfull
+            // 5. Set new session values after success
             session([
                 'dashboard_path' => $businessUnit->dashboard_path,
                 'bu_id' => $businessUnit->bu_id,
@@ -61,14 +82,28 @@ class BusinessUnitController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => "Successfully connected to $businessUnit->business_unit - $businessUnit->business_unit_code",
-                'BusinessUnit' => $businessUnit->name,
             ]);
         } catch (\Exception $e) {
+            // If connection fails, clear session again
+            session()->forget([
+                'dashboard_path',
+                'bu_id',
+                'database',
+                'host',
+                'port',
+                'username',
+                'password',
+                'business_unit',
+                'business_unit_code'
+            ]);
+
             return response()->json([
-                'error' => "Unable to connect $businessUnit->business_unit - $businessUnit->business_unit_code business unit"
+                'error' => "Unable to connect to $businessUnit->business_unit - $businessUnit->business_unit_code business unit",
+                'details' => $e->getMessage()
             ], 500);
         }
     }
+
 
     public function currentDatabase()
     {
