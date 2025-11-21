@@ -43,18 +43,18 @@ use Symfony\Component\Finder\Glob;
 
 // ROOT REDIRECT - Redirect to login if no session, or to appropriate dashboard if session exists
 Route::get('/', function () {
-    if (session('dashboard_path')) {
-        return redirect('/' . session('dashboard_path'));
-    }
+    // if (session('dashboard_path')) {
+    //     // return redirect('/' . session('dashboard_path'));
+    //     return redirect('/login');
+    // }
     return redirect('/login');
 });
 
 
 // BUSINESS UNIT SELECTION ROUTES (Available without auth)
 Route::get('fetch-business-units', [BusinessUnitController::class, 'businessUnits'])->name('businessUnits');
-Route::post('selected-business-unit/{id}', [BusinessUnitController::class, 'selectedBu'])->name('selectedBu');
+Route::post('selected-business-unit-{id}', [BusinessUnitController::class, 'selectedBu'])->name('selectedBu');
 Route::get('current-database', [BusinessUnitController::class, 'currentDatabase'])->name('currentDatabase');
-
 
 
 // GUEST ROUTES
@@ -334,8 +334,6 @@ Route::prefix('')->group(
             Route::get('fetch-price-group', [GlobalApiController::class, 'fetchPriceGroup'])->name('fetchPriceGroup');
             Route::get('fetch-account-code-list', [GlobalApiController::class, 'accountCodeList'])->name('accountCodeList');
             Route::get('fetch-customer-code-list', [GlobalApiController::class, 'customerCodeList'])->name('customerCodeList');
-
-
         });
     }
 );

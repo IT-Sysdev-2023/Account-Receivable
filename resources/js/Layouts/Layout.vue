@@ -1,6 +1,8 @@
 <template>
     <Transition name="fade" appear>
         <div class="min-h-screen bg-[var(--color-bg-primary)] text-[var(--color-text-primary)]">
+            <ToastAlert :show="showToast" :message="toastMessage" />
+            <ToastAlertWarning :show="showWToast" :message="toastWMessage" />
             <Notifications v-if="showNotifications" :show="showNotifications" @close="showNotifications = false" />
             <Messages v-if="showMessages" :show="showMessages" :users="users" @close="showMessages = false" />
             <div id="app" class="flex h-screen" v-cloak>
@@ -302,9 +304,36 @@ sub, subIndex
                                         {{ currentPageTitle }}
                                     </h2>
                                 </div>
-                                <div class="relative flex items-center gap-10">
 
-                                    <span class="font-semibold">{{ selectedBu }}</span>
+                                <!-- Switch database button  -->
+                                <div class="relative flex items-center gap-10">
+                                    <button @click="switchDatabaseModal = true"
+                                        v-if="props.auth?.user?.role === 'Admin'"
+                                        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-bg-primary)] text-[var(--color-text-secondary)] dark:text-[var(--color-text-primary)] hover:bg-[var(--color-primary)]"
+                                        title="Switch Business Unit">
+                                        <span class="font-semibold">Switch BU</span>
+
+                                        <!-- Icon -->
+                                        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                                            fill="currentColor" viewBox="0 0 24 24">
+                                            <path
+                                                d="M12 7.205c4.418 0 8-1.165 8-2.602C20 3.165 16.418 2 12 2S4 3.165 4 4.603c0 1.437 3.582 2.602 8 2.602ZM12 22c4.963 0 8-1.686 8-2.603v-4.404c-.052.032-.112.06-.165.09a7.75 7.75 0 0 1-.745.387c-.193.088-.394.173-.6.253-.063.024-.124.05-.189.073a18.934 18.934 0 0 1-6.3.998c-2.135.027-4.26-.31-6.3-.998-.065-.024-.126-.05-.189-.073a10.143 10.143 0 0 1-.852-.373 7.75 7.75 0 0 1-.493-.267c-.053-.03-.113-.058-.165-.09v4.404C4 20.315 7.037 22 12 22Zm7.09-13.928a9.91 9.91 0 0 1-.6.253c-.063.025-.124.05-.189.074a18.935 18.935 0 0 1-6.3.998c-2.135.027-4.26-.31-6.3-.998-.065-.024-.126-.05-.189-.074a10.163 10.163 0 0 1-.852-.372 7.816 7.816 0 0 1-.493-.268c-.055-.03-.115-.058-.167-.09V12c0 .917 3.037 2.603 8 2.603s8-1.686 8-2.603V7.596c-.052.031-.112.059-.165.09a7.816 7.816 0 0 1-.745.386Z" />
+                                        </svg>
+                                    </button>
+
+
+                                    <span v-if="selectedBu" class="font-semibold">{{ selectedBu }}</span>
+                                    <button v-else class="flex gap-2 font-semibold items-center justify-center"
+                                        @click="refreshPage">
+                                        <svg class="w-6 h-6 text-[var(--color-text-primary)]" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                                            viewBox="0 0 24 24">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4" />
+                                        </svg>
+                                        Click to refresh
+                                    </button>
 
                                     <!-- Left Column: Day Strip + Date Info -->
                                     <!-- <div
@@ -363,7 +392,8 @@ sub, subIndex
                                             <!-- Clock Digits -->
                                             <div
                                                 class="text-2xl font-mono font-bold text-[var(--color-text-primary)] tracking-tighter">
-                                                <span class="inline-block min-w-[1.5rem] text-center">{{ hours }}</span>
+                                                <span class="inline-block min-w-[1.5rem] text-center">{{ hours
+                                                    }}</span>
                                                 <span class="text-[var(--color-primary)] mx-1">:</span>
                                                 <span class="inline-block min-w-[1.5rem] text-center">{{ minutes
                                                     }}</span>
@@ -411,6 +441,8 @@ sub, subIndex
             </div>
         </div>
     </Transition>
+    <SwitchDatabase :show="switchDatabaseModal" @close="switchDatabaseModal = false" @success="success"
+        @error="errorMessage" />
 </template>
 
 <script setup>
@@ -442,11 +474,72 @@ import useTheme from "../Pages/Composables/useTheme";
 import usePermissions from "../Pages/Composables/usePermissions";
 import { mdiBell } from "@mdi/js";
 import Notifications from "../Modals/Notifications.vue";
-import {mdiMessage } from "@mdi/js";
+import { mdiMessage } from "@mdi/js";
 import Messages from "../Modals/Messages.vue";
+import SwitchDatabase from "../Modals/SwitchDatabase.vue";
+import ToastAlert from "../Pages/Components/ToastAlert.vue";
+import ToastAlertWarning from "../Pages/Components/ToastAlertWarning.vue";
+
 
 
 const selectedBu = ref([]);
+const switchDatabaseModal = ref(false);
+const showToast = ref(false);
+const toastMessage = ref("");
+const showWToast = ref(false);
+const toastWMessage = ref("");
+let toastTimeout = null;
+let toastWTimeout = null;
+
+//SUCCESSFULL TOAST
+const showSuccessToast = (message) => {
+    toastMessage.value = message;
+    showToast.value = true;
+
+    if (toastTimeout) clearTimeout(toastTimeout); // Clear any previous timeout
+
+    // Trigger reactivity again on next tick
+    setTimeout(() => {
+        showToast.value = true;
+    }, 0);
+
+    toastTimeout = setTimeout(() => {
+        showToast.value = false;
+        toastTimeout = null;
+    }, 3000);
+};
+
+//WARNING TOAST
+const showWarningToast = (message) => {
+    toastWMessage.value = message;
+    showWToast.value = false; // Hide first to trigger reactivity if the same toast shows again
+    if (toastWTimeout) clearTimeout(toastWTimeout); // Clear any previous timeout
+
+    // Trigger reactivity again on next tick
+    setTimeout(() => {
+        showWToast.value = true;
+    }, 0);
+
+    toastWTimeout = setTimeout(() => {
+        showWToast.value = false;
+        toastWTimeout = null;
+    }, 3000);
+};
+
+const errorMessage = (message) => {
+    showWarningToast(message);
+}
+
+const success = (message) => {
+    showSuccessToast(message);
+    setTimeout(() => {
+        window.location.reload()
+    }, 3000);
+};
+
+const refreshPage = () => {
+    window.location.reload()
+};
 
 const currentActiveBu = async () => {
     try {

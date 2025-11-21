@@ -50,37 +50,39 @@
                                 :message="form.errors.password"
                                 icon="M12 1a11 11 0 0 0-11 11c0 3.55 1.61 6.74 4.16 8.84l.16.12V21h1.67l.34-.16c1.44-.72 3.08-1.16 4.83-1.16s3.39.44 4.83 1.16l.34.16H23v-1.04l.16-.12C25.39 18.74 27 15.55 27 12a11 11 0 0 0-11-11zm0 2a9 9 0 0 1 9 9c0 2.38-1.19 4.47-3 5.74V17a7 7 0 0 0-12-4.94A7 7 0 0 0 6 17v1.74A8.985 8.985 0 0 1 3 12a9 9 0 0 1 9-9zm0 6a3 3 0 1 0 0 6 3 3 0 0 0 0-6z" />
 
-                            <label class="block text-sm font-medium text-[var(--color-text-secondary)] mb-2"
-                                for="">Select Business Units
-                            </label>
-                            <div class="flex items-center gap-2">
-                                <select
-                                    v-model="form.business_unit" placeholder="Select a business unit">
-                                    <option v-for="bu in businessUnits" :key="bu.id" :value="bu.id">{{ bu.business_unit
+                            <!-- <div>
+                                <label class="block text-sm font-medium text-[var(--color-text-secondary)] mb-2"
+                                    for="">Select Business Units
+                                </label>
+                                <div class="flex items-center gap-2">
+                                    <select v-model="form.business_unit" placeholder="Select a business unit">
+                                        <option v-for="bu in businessUnits" :key="bu.id" :value="bu.id">{{
+                                            bu.business_unit
                                         }} -
-                                        {{ bu.business_unit_code }}</option>
-                                </select>
-                                <div v-if="form.business_unit">
-                                    <span v-if="showSuccess">
-                                        <svg class="w-6 h-6 text-green-700" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="currentColor" viewBox="0 0 24 24">
-                                            <path fill-rule="evenodd"
-                                                d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </span>
-                                    <span v-if="!showSuccess">
-                                        <svg class="w-6 h-6 text-red-700" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            fill="currentColor" viewBox="0 0 24 24">
-                                            <path fill-rule="evenodd"
-                                                d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
-                                                clip-rule="evenodd" />
-                                        </svg>
-                                    </span>
+                                            {{ bu.business_unit_code }}</option>
+                                    </select>
+                                    <div v-if="form.business_unit">
+                                        <span v-if="showSuccess">
+                                            <svg class="w-6 h-6 text-green-700" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="currentColor" viewBox="0 0 24 24">
+                                                <path fill-rule="evenodd"
+                                                    d="M12 2c-.791 0-1.55.314-2.11.874l-.893.893a.985.985 0 0 1-.696.288H7.04A2.984 2.984 0 0 0 4.055 7.04v1.262a.986.986 0 0 1-.288.696l-.893.893a2.984 2.984 0 0 0 0 4.22l.893.893a.985.985 0 0 1 .288.696v1.262a2.984 2.984 0 0 0 2.984 2.984h1.262c.261 0 .512.104.696.288l.893.893a2.984 2.984 0 0 0 4.22 0l.893-.893a.985.985 0 0 1 .696-.288h1.262a2.984 2.984 0 0 0 2.984-2.984V15.7c0-.261.104-.512.288-.696l.893-.893a2.984 2.984 0 0 0 0-4.22l-.893-.893a.985.985 0 0 1-.288-.696V7.04a2.984 2.984 0 0 0-2.984-2.984h-1.262a.985.985 0 0 1-.696-.288l-.893-.893A2.984 2.984 0 0 0 12 2Zm3.683 7.73a1 1 0 1 0-1.414-1.413l-4.253 4.253-1.277-1.277a1 1 0 0 0-1.415 1.414l1.985 1.984a1 1 0 0 0 1.414 0l4.96-4.96Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        <span v-if="!showSuccess">
+                                            <svg class="w-6 h-6 text-red-700" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                fill="currentColor" viewBox="0 0 24 24">
+                                                <path fill-rule="evenodd"
+                                                    d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
+                            </div> -->
                         </div>
 
                         <button type="submit"
@@ -98,7 +100,7 @@
                                 </svg>
                                 <span>{{
                                     form.processing ? "Logging in..." : "Log In"
-                                    }}</span>
+                                }}</span>
                             </span>
                         </button>
                     </form>

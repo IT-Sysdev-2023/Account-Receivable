@@ -76,6 +76,13 @@
                                 </p>
                             </div>
                         </div>
+                        <div class="mt-2">
+                            <span class="text-red-500">
+                                Note: The newly added user's assigned business unit will be based on the currently
+                                active business unit you are using.
+                            </span>
+                        </div>
+
                     </div>
 
                     <!-- Right Column: Form Inputs -->

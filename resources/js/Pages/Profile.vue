@@ -38,7 +38,7 @@
                                 {{
                                     user.name === "Administrator"
                                         ? "Administrator"
-                                        : hrmsData.data.employee[0]
+                                        : hrmsData?.data?.employee[0]
                                             .employee_position
                                 }}
                             </p>
@@ -64,7 +64,7 @@
                                 {{
                                     user.name === "Administrator"
                                         ? "Administrator"
-                                        : hrmsData.data.employee[0][field.key]
+                                        : hrmsData?.data?.employee[0][field.key]
                                 }}
                             </div>
                         </div>

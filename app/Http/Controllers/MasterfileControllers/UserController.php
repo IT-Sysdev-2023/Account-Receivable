@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\MasterfileModels\Permission;
 use App\Models\MasterfileModels\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -34,6 +35,86 @@ class UserController extends Controller
         ]);
     }
 
+    private function assignPermissions($user, $role)
+    {
+        $rolePermissions = [
+            'Admin' => [
+                '0101-CUST',
+                '0102-USER',
+                '0103-CHKR',
+                '0104-ITEM',
+                '0104-ITMPCK',
+                '0105-ADJRS',
+                '0106-CAB',
+                '0107-CIT',
+                '0108-PCKT',
+                '0109-SAMNT',
+                '0201-CIT',
+                '0202-ADT',
+                '0203-PAYT',
+                '0204-BGBLT',
+                '0301-GNRPRT',
+                '0302-CUSLED',
+                '0401-CHKCLR',
+                '0402-WHTCLR',
+                '0403-CNCLPY',
+                '0404-EXPRTGL',
+                'NOTIFICATIONS',
+                'MANAGERKEY'
+            ],
+            'Invoicing' => ['0201-CIT', '0202-ADT', '0301-GNRPRT', '0302-CUSLED'],
+            'Accounting' => ['0203-PAYT', '0401-CHKCLR', '0402-WHTCLR', '0301-GNRPRT', '0302-CUSLED', '0204-BGBLT'],
+            'Bookkeeper' => ['0301-GNRPRT', '0404-EXPRTGL'],
+            'IAD' => ['0301-GNRPRT'],
+        ];
+
+        $roleActions = [
+            '0101-CUST' => ['can_view', 'can_update'],
+            '0102-USER' => ['can_view', 'can_insert', 'can_update', 'can_delete'],
+            '0103-CHKR' => ['can_view', 'can_insert', 'can_update', 'can_delete'],
+            '0104-ITEM' => ['can_view', 'can_insert', 'can_update', 'can_delete'],
+            '0104-ITMPCK' => ['can_view', 'can_update'],
+            '0105-ADJRS' => ['can_view', 'can_insert', 'can_update', 'can_delete'],
+            '0106-CAB' => ['can_view', 'can_insert', 'can_update', 'can_delete'],
+            '0107-CIT' => ['can_view', 'can_insert', 'can_update', 'can_delete'],
+            '0108-PCKT' => ['can_view', 'can_insert', 'can_update', 'can_delete'],
+            '0109-SAMNT' => ['can_view', 'can_insert', 'can_update', 'can_delete'],
+            '0201-CIT' => ['can_view', 'can_insert', 'can_print', 'can_reprint'],
+            '0202-ADT' => ['can_view', 'can_insert', 'can_print', 'can_reprint'],
+            '0203-PAYT' => ['can_view', 'can_insert', 'can_print', 'can_reprint'],
+            '0204-BGBLT' => ['can_view', 'can_insert'],
+            '0301-GNRPRT' => ['can_view'],
+            '0302-CUSLED' => ['can_view'],
+            '0401-CHKCLR' => ['can_view', 'can_insert', 'can_print', 'can_reprint'],
+            '0402-WHTCLR' => ['can_view', 'can_insert', 'can_print', 'can_reprint'],
+            '0403-CNCLPY' => ['can_view', 'can_insert'],
+            '0404-EXPRTGL' => ['can_view', 'can_update'],
+            'NOTIFICATIONS' => ['can_insert'],
+            'MANAGERKEY' => ['can_insert'],
+        ];
+
+        $roleIds = $rolePermissions[$role] ?? [];
+
+        foreach ($roleIds as $roleId) {
+            $actions = $roleActions[$roleId] ?? [];
+
+            $permissionData = [
+                'user_id' => $user->id,
+                'role_id' => $roleId,
+                'can_view' => in_array('can_view', $actions),
+                'can_insert' => in_array('can_insert', $actions),
+                'can_update' => in_array('can_update', $actions),
+                'can_delete' => in_array('can_delete', $actions),
+                'can_print' => in_array('can_print', $actions),
+                'can_tag' => in_array('can_tag', $actions),
+                'can_reprint' => in_array('can_reprint', $actions),
+            ];
+
+            Permission::create($permissionData);
+        }
+    }
+
+
     public function addUser(Request $request)
     {
         $fields = $request->validate([
@@ -46,7 +127,25 @@ class UserController extends Controller
         ]);
 
         $fields['created_by'] =  $request->user()->name;
+        $fields['password'] = bcrypt($fields['password']);
+        $fields['bu_assign'] = session('bu_id');
+
         $user = User::create($fields);
+
+        DB::connection('mysql')->table('users')->insert([
+            'employee_id' => $fields['employee_id'],
+            'name' => $fields['name'],
+            'username' => $fields['username'],
+            'password' => $fields['password'],
+            'role' => $fields['role'],
+            'status' => $fields['status'],
+            'bu_assign' => $fields['bu_assign'],
+            'created_by' => $fields['created_by'],
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->assignPermissions($user, $fields['role']);
 
         $rolePermissions = [
             'Admin' => [
