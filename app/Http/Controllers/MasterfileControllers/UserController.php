@@ -18,10 +18,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::when($request->search, function ($query) use ($request) {
-            $query
-                ->where('name', 'like', '%' . $request->search . '%')
-                ->orWhere('username', 'like', '%' . $request->search . '%');
-        })->paginate(10)->withQueryString();
+                $query
+                    ->where('name', 'like', '%' . $request->search . '%')
+                    ->orWhere('username', 'like', '%' . $request->search . '%');
+            })->paginate(10)->withQueryString();
 
         $permissions = [];
         foreach ($users as $user) {
@@ -56,7 +56,7 @@ class UserController extends Controller
 
         // 3️⃣ Save user in MAIN DB only
         $user = User::on('mysql')->create($fields);
-       
+
         // 4️⃣ Define role permissions and actions
         $rolePermissions = [
             'Admin' => [
@@ -148,7 +148,7 @@ class UserController extends Controller
     }
 
 
-    public function updateUser(Request $request, $id )
+    public function updateUser(Request $request, $id)
     {
         $validatedData = $request->validate([
             'username' => 'required|string|max:255',
@@ -177,7 +177,7 @@ class UserController extends Controller
         $validatedData['bu_assign'] = $user->bu_assign;
         // dd($validatedData);
         $user->update($validatedData);
-        
+
 
         if ($currentRole !== $validatedData['role']) {
             $rolePermissions = [
