@@ -35,6 +35,7 @@ use App\Http\Controllers\UtilityControllers\CheckClearedController;
 use App\Http\Controllers\UtilityControllers\CheckClearedItemsController;
 use App\Http\Controllers\UtilityControllers\WHTClearedController;
 use App\Http\Controllers\UtilityControllers\WHTClearedItemsController;
+use App\Http\Middleware\SwitchBuDatabase;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,10 @@ Route::get('/', function () {
 Route::get('fetch-business-units', [BusinessUnitController::class, 'businessUnits'])->name('businessUnits');
 Route::post('selected-business-unit-{id}', [BusinessUnitController::class, 'selectedBu'])->name('selectedBu');
 Route::get('current-database', [BusinessUnitController::class, 'currentDatabase'])->name('currentDatabase');
+
+Route::get('get-business-unit-list', [BusinessUnitController::class, 'getBusinessUnitList'])->name('getBusinessUnitList');
+Route::post('set-selected-database', [BusinessUnitController::class, 'setSelectedDatabase'])->name('setSelectedDatabase');
+
 
 
 // GUEST ROUTES

@@ -144,10 +144,10 @@
                 <!-- Change Username Form -->
                 <form @submit.prevent="updateUsername" class="space-y-3 sm:space-y-4 mb-6 sm:mb-8">
                     <div>
-                        <TextInput label="Username" type="text" v-model="usernameForm.username"
+                        <TextInput readonly label="Username" type="text" v-model="usernameForm.username"
                             :message="usernameForm.errors.username" />
                     </div>
-                    <button type="submit"
+                    <!-- <button type="submit"
                         class="w-full px-3 py-2 sm:px-4 sm:py-3 rounded-md font-medium transition-all duration-300 flex items-center justify-center gap-2 relative overflow-hidden bg-[var(--color-primary)] text-white hover:bg-transparent hover:text-[var(--color-primary)] hover:ring-1 hover:ring-[var(--color-primary)] disabled:opacity-70 disabled:cursor-not-allowed text-sm sm:text-base"
                         :disabled="usernameForm.processing">
                         <div class="relative flex items-center justify-center gap-1">
@@ -159,7 +159,7 @@
                                 }}
                             </span>
                         </div>
-                    </button>
+                    </button> -->
                 </form>
 
                 <!-- Change Password Form -->

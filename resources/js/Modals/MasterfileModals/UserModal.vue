@@ -76,13 +76,6 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="mt-2">
-                            <span class="text-red-500">
-                                Note: The newly added user's assigned business unit will be based on the currently
-                                active business unit you are using.
-                            </span>
-                        </div>
-
                     </div>
 
                     <!-- Right Column: Form Inputs -->
@@ -103,6 +96,18 @@
                             ]" placeholder="Click to Select" :message="form.errors.role" />
                             <DropdownInput label="Status" v-model="form.status" :options="['Active', 'Not Active']"
                                 placeholder="Click to Select" :message="form.errors.status" />
+                            <MultiSelectDropdown label="Business Units" v-model="form.business_units" :options="[
+                                { id: 17, name: 'DRESSING PLANT' },
+                                { id: 18, name: 'RENDERING' },
+                                { id: 19, name: 'FEEDMILL' },
+                                { id: 20, name: 'GROWOUT' },
+                                { id: 21, name: 'DEMO FARM' },
+                                { id: 22, name: 'MFI MANURE FERTILIZER UBAY' },
+                                { id: 46, name: 'MEAT PROCESSING PLANT' },
+                                { id: 23, name: 'PIGGERY UNTAGA' },
+                                { id: 41, name: 'FARMERS MARKET' },
+                                { id: 42, name: 'MFI FERTILIZER CORTES' },
+                            ]" />
                         </div>
                     </div>
                 </div>
@@ -141,6 +146,7 @@ import ToastAlertWarning from "../../Pages/Components/ToastAlertWarning.vue";
 import SvgIcon from "@jamescoyle/vue-icon";
 import { mdiClose, mdiNavigationVariantOutline } from "@mdi/js";
 import DropdownInput from "../../Pages/Components/DropdownInput.vue";
+import MultiSelectDropdown from "../../Pages/Components/MultiSelectDropdown.vue";
 
 const props = defineProps({
     show: Boolean,
@@ -155,6 +161,7 @@ const form = useForm({
     password_confirmation: null,
     role: null,
     status: null,
+    business_units: []
 });
 
 const showImage = ref(true);

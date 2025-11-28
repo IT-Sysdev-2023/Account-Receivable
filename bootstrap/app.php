@@ -24,19 +24,16 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'check.permission' => CheckUserPermission::class,
             'switchBuDatabase' => App\Http\Middleware\SwitchBuDatabase::class,
-            // 'perBuPrefix' => App\Http\Middleware\PerBuPrefix::class,
         ]);
         $middleware->api([
             \Illuminate\Routing\Middleware\ThrottleRequests::class . ':60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             App\Http\Middleware\SwitchBuDatabase::class,
-            // App\Http\Middleware\PerBuPrefix::class,
 
         ]);
         $middleware->web(append: [
             HandleInertiaRequests::class,
             App\Http\Middleware\SwitchBuDatabase::class,
-            // App\Http\Middleware\PerBuPrefix::class,
 
         ]);
         $middleware->validateCsrfTokens(except: [

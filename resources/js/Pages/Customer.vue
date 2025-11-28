@@ -679,7 +679,7 @@ const syncCustomers = async () => {
             showSuccessToast("Customer Update Successful");
         } else {
             console.error("Sync failed:", response.data.error);
-            showWarningToast("Customer Update Failed");
+            showWarningToast(response.data.message);
             // Show error toast
         }
     } catch (error) {

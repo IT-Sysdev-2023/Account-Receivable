@@ -9,69 +9,9 @@ use Illuminate\Support\Facades\DB;
 
 class BusinessUnitService
 {
-
-    public function checkUserInBusinessUnit($buId, $username, $password)
-    {
-        $businessUnit = BusinessUnit::where('bu_id', $buId)->first();
-
-        if (!$businessUnit) {
-            return [
-                'success' => false,
-                'message' => 'Selected business unit not found'
-            ];
-        }
-
-        try {
-
-            // TEMPORARY DB CONNECTION
-            Config::set('database.connections.temp_bu', [
-                'driver' => 'mysql',
-                'host' => $businessUnit->host,
-                'port' => $businessUnit->port,
-                'database' => $businessUnit->database,
-                'username' => $businessUnit->username,
-                'password' => $businessUnit->password,
-                'charset' => 'utf8mb4',
-                'collation' => 'utf8mb4_unicode_ci',
-            ]);
-
-            DB::purge('temp_bu');
-            DB::reconnect('temp_bu');
-
-            // RUN QUERY
-            $user = User::on('temp_bu')
-                ->where('username', $username)
-                ->first();
-
-            if (!$user) {
-                return [
-                    'success' => false,
-                    'message' => 'Invalid Username or Password for assigned business unit'
-                ];
-            }
-            if (!password_verify($password, $user->password)) {
-                return [
-                    'success' => false,
-                    'message' => 'Invalid Username or Password for assigned business unit'
-                ];
-            }
-            return [
-                'success' => true,
-                'user' => $user
-            ];
-
-        } catch (\Exception $e) {
-
-            return [
-                'success' => false,
-                'message' => "Unable to connect $businessUnit->business_unit - $businessUnit->business_unit_code database assigned of $username"
-            ];
-        }
-    }
-
     public function setBusinessUnitSessionAndConnection($buId)
     {
-        $businessUnit = BusinessUnit::where('bu_id',$buId)->first();
+        $businessUnit = BusinessUnit::where('bu_id', $buId)->first();
 
         if (!$businessUnit) {
             return [
@@ -100,6 +40,19 @@ class BusinessUnitService
             DB::connection($tempConnection)->getPdo(); // Will throw exception if failed
 
         } catch (\Exception $e) {
+
+            session()->forget([
+                'dashboard_path',
+                'bu_id',
+                'database',
+                'host',
+                'port',
+                'username',
+                'password',
+                'business_unit',
+                'business_unit_code',
+            ]);
+
             return [
                 'error' => true,
                 'message' => "Cannot connect to database: $businessUnit->business_unit - $businessUnit->business_unit_code"

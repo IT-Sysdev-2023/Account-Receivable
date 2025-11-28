@@ -211,7 +211,6 @@ class ItemController extends Controller
 
         $fields['created_by'] =  $request->user()->name;
         $fields['packing'] = $request->packing ?? [];
-        dd($fields);
         $item->update($fields);
 
         event(new NewCreated('item'));

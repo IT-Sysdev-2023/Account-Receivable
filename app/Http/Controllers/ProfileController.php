@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MasterfileModels\User;
+use App\Services\UserSyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;

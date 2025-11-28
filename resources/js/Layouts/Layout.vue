@@ -313,7 +313,6 @@ sub, subIndex
                                         title="Switch Business Unit">
                                         <span class="font-semibold">Switch BU</span>
 
-                                        <!-- Icon -->
                                         <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                             fill="currentColor" viewBox="0 0 24 24">
                                             <path
@@ -323,7 +322,7 @@ sub, subIndex
 
 
                                     <span v-if="selectedBu" class="font-semibold">{{ selectedBu }}</span>
-                                    <button v-else class="flex gap-2 font-semibold items-center justify-center"
+                                    <!-- <button v-else class="flex gap-2 font-semibold items-center justify-center"
                                         @click="refreshPage">
                                         <svg class="w-6 h-6 text-[var(--color-text-primary)]" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
@@ -333,7 +332,7 @@ sub, subIndex
                                                 d="M17.651 7.65a7.131 7.131 0 0 0-12.68 3.15M18.001 4v4h-4m-7.652 8.35a7.13 7.13 0 0 0 12.68-3.15M6 20v-4h4" />
                                         </svg>
                                         Click to refresh
-                                    </button>
+                                    </button> -->
 
                                     <!-- Left Column: Day Strip + Date Info -->
                                     <!-- <div
