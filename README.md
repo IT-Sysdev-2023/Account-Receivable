@@ -1,67 +1,119 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# **AR SYSTEM – Account Receivable System**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A centralized **multi‑database Account Receivable System** built in Laravel. Each user is assigned a specific business unit database, while administrators have full access to all databases.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🚀 **System Overview**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The system operates with **one Laravel project** but multiple databases. Behavior varies by role:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### **👨‍💼 Admin Behavior**
 
-## Learning Laravel
+* Can access **all databases**.
+* Can **switch the active database** after logging in.
+* When an admin creates a new user, the **user inherits the admin’s current active database**.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### **👤 Normal User Behavior**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+* Has access **only to the database assigned** at account creation.
+* Cannot switch databases.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### **📌 How Database Switching Works**
 
-## Laravel Sponsors
+* **Web requests** use the database stored in the **session**.
+* **Background processes** (Reverb, Queue workers) always use the **default DB defined in `.env`**, unless explicitly overridden.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🛠️ **Project Setup (After Cloning)**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+Run the following commands:
 
-## Contributing
+```bash
+git clone <repository-url>
+cd <project-folder>
+composer install
+npm install
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 1️⃣ **Create storage link**
 
-## Code of Conduct
+> Make sure there is **NO** existing `public/storage` folder.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+php artisan storage:link
+```
 
-## Security Vulnerabilities
+If the folder exists:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1. Delete `public/storage`
+2. Run the command again.
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
-Long Live Ar System
+## ⚠️ **Common Issues & Fixes**
+
+### ❌ **1. Images Not Showing**
+
+✔ Run:
+
+```bash
+php artisan storage:link
+```
+
+---
+
+### ❌ **2. Report Progress Stuck at 100%**
+
+This is caused by incorrect queue settings.
+
+✔ Open `config/queue.php` and ensure:
+
+```php
+'default' => env('QUEUE_CONNECTION', 'database'),
+```
+
+And the **connection** is using **mysql**.
+
+---
+
+### ❌ **3. Report Generation Shows 403 Access Denied**
+
+Example error:
+
+> *ERROR 403 Access Denied – The gates are firmly shut…*
+
+This happens when `storage:link` is not properly created.
+
+✔ Solution:
+
+```bash
+php artisan storage:link
+```
+
+Make sure it runs **successfully**, and ensure:
+
+* No `public/storage` folder existed before linking.
+* Your generated files are saved under:
+
+  ```
+  storage/app/public/
+  ```
+
+---
+
+## 📌 Additional Notes
+
+* Admins should **switch to the correct Business Unit** before creating users.
+* Queue workers and Reverb processes **do not use session-based DB**. They use the DB defined in the `.env` unless dynamically reconfigured.
+
+---
+
+## 📞 **Support**
+
+Message the developer if issues persist or if additional business units need setup.
+
+---
+
+**Enjoy using AR System – centralized, efficient, and scalable.**
