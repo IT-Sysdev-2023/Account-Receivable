@@ -17,11 +17,22 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $users = User::when($request->search, function ($query) use ($request) {
-                $query
-                    ->where('name', 'like', '%' . $request->search . '%')
-                    ->orWhere('username', 'like', '%' . $request->search . '%');
-            })->paginate(10)->withQueryString();
+        $buId = session('bu_id');
+
+        $users = User::when($buId, function ($query) use ($buId) {
+            $query->where(function ($q) use ($buId) {
+                $q->whereJsonContains('bu_assign', (int)$buId)
+                    ->orWhereJsonContains('bu_assign', (string)$buId);
+            });
+        })
+            ->when($request->search, function ($query) use ($request) {
+                $search = $request->search;
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%$search%")
+                        ->orWhere('username', 'like', "%$search%");
+                });
+            })
+            ->paginate(10)->withQueryString();
 
         $permissions = [];
         foreach ($users as $user) {
