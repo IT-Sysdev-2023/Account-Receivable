@@ -102,6 +102,48 @@ Make sure it runs **successfully**, and ensure:
   ```
 
 ---
+## This setup is for giving access to database from centralized project using UniServerZ
+# Please note that the commands there is just a sample just change the thing base on the user and the database name you created. All commands there is just a guide so please be watchful.
+
+*First is that you must give access the first database or the main database that is setup on the project .env file
+
+*The database is automatically created so youll need to do is to create access to specific user
+Run this command for giving access to specific user
+```bash
+CREATE USER 'CortesCentralizedAr'@'172.16.42.91' IDENTIFIED BY 'FarMsTeaM';
+```
+*That command create a user that is being recieve the access and its corresponding ip address and the password of the database to access
+*Next is grant that user the access of the database
+```bash
+GRANT ALL PRIVILEGES ON piggery_cortes_ar.* TO 'CortesCentralizedAr'@'172.16.42.91'; 
+```
+then run 
+```bash
+FLUSH PRIVILEGES;
+```
+finally run this command
+```bash
+GRANT ALL PRIVILEGES ON `first_database`.* TO 'admin'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Thats all for the first and main database setup in the project .env file
+
+*Next is to add more database on the same user
+*First is creating new database, run this command
+```bash
+CREATE DATABASE piggery_cortes_ar;
+```
+then run this command
+```bash
+GRANT ALL PRIVILEGES ON piggery_cortes_ar.* TO 'CortesCentralizedAr'@'172.16.42.91'; 
+FLUSH PRIVILEGES;
+```
+finally run this command
+```bash
+GRANT ALL PRIVILEGES ON `first_database`.* TO 'admin'@'localhost';
+FLUSH PRIVILEGES;
+```
 
 ## 📌 Additional Notes
 
