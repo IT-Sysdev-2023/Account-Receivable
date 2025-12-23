@@ -12,7 +12,7 @@ The system operates with **one Laravel project** but multiple databases. Behavio
 
 * Can access **all databases**.
 * Can **switch the active database** after logging in.
-* When an admin creates a new user, the **user inherits the admin’s current active database**.
+* When an admin creates a new user, the **user will be set what database it can be use base on admin selected**.
 
 ### **👤 Normal User Behavior**
 
