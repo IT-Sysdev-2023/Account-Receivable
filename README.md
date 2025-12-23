@@ -110,12 +110,12 @@ Make sure it runs **successfully**, and ensure:
 *The database is automatically created so youll need to do is to create access to specific user
 Run this command for giving access to specific user
 ```bash
-CREATE USER 'CortesCentralizedAr'@'172.16.42.91' IDENTIFIED BY 'FarMsTeaM';
+CREATE USER 'SampleUser'@'172.16.42.91' IDENTIFIED BY 'FarMsTeaM';
 ```
 *That command create a user that is being recieve the access and its corresponding ip address and the password of the database to access
 *Next is grant that user the access of the database
 ```bash
-GRANT ALL PRIVILEGES ON piggery_cortes_ar.* TO 'CortesCentralizedAr'@'172.16.42.91'; 
+GRANT ALL PRIVILEGES ON sample_database.* TO 'SampleUser'@'172.16.42.91'; 
 ```
 then run 
 ```bash
@@ -123,7 +123,7 @@ FLUSH PRIVILEGES;
 ```
 finally run this command
 ```bash
-GRANT ALL PRIVILEGES ON `first_database`.* TO 'admin'@'localhost';
+GRANT ALL PRIVILEGES ON `sample_database`.* TO 'admin'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
@@ -132,22 +132,22 @@ Thats all for the first and main database setup in the project .env file
 *Next is to add more database on the same user
 *First is creating new database, run this command
 ```bash
-CREATE DATABASE piggery_cortes_ar;
+CREATE DATABASE second_sample_database;
 ```
 then run this command
 ```bash
-GRANT ALL PRIVILEGES ON piggery_cortes_ar.* TO 'CortesCentralizedAr'@'172.16.42.91'; 
+GRANT ALL PRIVILEGES ON second_sample_database.* TO 'SampleUser'@'172.16.42.91'; 
 FLUSH PRIVILEGES;
 ```
 finally run this command
 ```bash
-GRANT ALL PRIVILEGES ON `first_database`.* TO 'admin'@'localhost';
+GRANT ALL PRIVILEGES ON `second_sample_database`.* TO 'admin'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
 ## 📌 Additional Notes
 
-* Admins should **switch to the correct Business Unit** before creating users.
+* Admins can now set the newly added users on database which he or she can use only.
 * Queue workers and Reverb processes **do not use session-based DB**. They use the DB defined in the `.env` unless dynamically reconfigured.
 
 ---
@@ -158,4 +158,4 @@ Message the developer if issues persist or if additional business units need set
 
 ---
 
-**Enjoy using AR System – centralized, efficient, and scalable.**
+**Thank you and Godbless.**
