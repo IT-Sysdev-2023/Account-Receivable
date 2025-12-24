@@ -102,6 +102,20 @@ Make sure it runs **successfully**, and ensure:
   ```
 
 ---
+
+### ❌ **4. Report Generation Failed to preview**
+
+Example error:
+
+> *ERROR 403 Access Denied – Failed to preview report*
+
+This happens when `nssm reverb and queue` is not properly created.
+
+✔ Solution:
+
+Check again the nssm reverb the host and port must match on the server ip and the host must match on what is set in the reverb found in the .env file.
+Then restart the nssm reverb and nssm queue that you setup.
+
 ## This setup is for giving access to database from centralized project using UniServerZ
 # Please note that the commands there is just a sample just change the thing base on the user and the database name you created. All commands there is just a guide so please be watchful.
 
