@@ -12,7 +12,7 @@ The system operates with **one Laravel project** but multiple databases. Behavio
 
 * Can access **all databases**.
 * Can **switch the active database** after logging in.
-* When an admin creates a new user, the **user inherits the admin’s current active database**.
+* When an admin creates a new user, the **user will be set what database it can be use base on admin selected**.
 
 ### **👤 Normal User Behavior**
 
@@ -103,9 +103,65 @@ Make sure it runs **successfully**, and ensure:
 
 ---
 
+### ❌ **4. Report Generation Failed to preview**
+
+Example error:
+
+> *ERROR 403 Access Denied – Failed to preview report*
+
+This happens when `nssm reverb and queue` is not properly created.
+
+✔ Solution:
+
+Check again the nssm reverb the host and port must match on the server ip and the host must match on what is set in the reverb found in the .env file.
+Then restart the nssm reverb and nssm queue that you setup.
+
+## This setup is for giving access to database from centralized project using UniServerZ
+# Please note that the commands there is just a sample just change the thing base on the user and the database name you created. All commands there is just a guide so please be watchful.
+
+*First is that you must give access the first database or the main database that is setup on the project .env file
+
+*The database is automatically created so youll need to do is to create access to specific user
+Run this command for giving access to specific user
+```bash
+CREATE USER 'SampleUser'@'172.16.42.91' IDENTIFIED BY 'FarMsTeaM';
+```
+*That command create a user that is being recieve the access and its corresponding ip address and the password of the database to access
+*Next is grant that user the access of the database
+```bash
+GRANT ALL PRIVILEGES ON sample_database.* TO 'SampleUser'@'172.16.42.91'; 
+```
+then run 
+```bash
+FLUSH PRIVILEGES;
+```
+finally run this command
+```bash
+GRANT ALL PRIVILEGES ON `sample_database`.* TO 'admin'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Thats all for the first and main database setup in the project .env file
+
+*Next is to add more database on the same user
+*First is creating new database, run this command
+```bash
+CREATE DATABASE second_sample_database;
+```
+then run this command
+```bash
+GRANT ALL PRIVILEGES ON second_sample_database.* TO 'SampleUser'@'172.16.42.91'; 
+FLUSH PRIVILEGES;
+```
+finally run this command
+```bash
+GRANT ALL PRIVILEGES ON `second_sample_database`.* TO 'admin'@'localhost';
+FLUSH PRIVILEGES;
+```
+
 ## 📌 Additional Notes
 
-* Admins should **switch to the correct Business Unit** before creating users.
+* Admins can now set the newly added users on database which he or she can use only.
 * Queue workers and Reverb processes **do not use session-based DB**. They use the DB defined in the `.env` unless dynamically reconfigured.
 
 ---
@@ -116,4 +172,4 @@ Message the developer if issues persist or if additional business units need set
 
 ---
 
-**Enjoy using AR System – centralized, efficient, and scalable.**
+**Thank you and Godbless.**
