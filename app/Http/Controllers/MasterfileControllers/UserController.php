@@ -6,7 +6,9 @@ use App\Events\NewCreated;
 use App\Http\Controllers\Controller;
 use App\Models\MasterfileModels\Permission;
 use App\Models\MasterfileModels\User;
+use App\Services\UserDeleteSyncService;
 use App\Services\UserSyncService;
+use App\Services\UserUpdateSyncService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -95,7 +97,7 @@ class UserController extends Controller
                 'MANAGERKEY'
             ],
             'Invoicing' => ['0201-CIT', '0202-ADT', '0301-GNRPRT', '0302-CUSLED'],
-            'Accounting' => ['0203-PAYT', '0401-CHKCLR', '0402-WHTCLR', '0301-GNRPRT', '0302-CUSLED', '0204-BGBLT'],
+            'Accounting' => ['0203-PAYT', '0401-CHKCLR', '0402-WHTCLR', '0301-GNRPRT', '0302-CUSLED'],
             'Bookkeeper' => ['0301-GNRPRT', '0404-EXPRTGL'],
             'IAD' => ['0301-GNRPRT'],
         ];
@@ -159,7 +161,7 @@ class UserController extends Controller
     }
 
 
-    public function updateUser(Request $request, $id)
+    public function updateUser(Request $request, $id, UserUpdateSyncService $syncUpdateUser)
     {
         $validatedData = $request->validate([
             'username' => 'required|string|max:255',
@@ -217,7 +219,7 @@ class UserController extends Controller
                     'MANAGERKEY'
                 ],
                 'Invoicing' => ['0201-CIT', '0202-ADT', '0301-GNRPRT', '0302-CUSLED'],
-                'Accounting' => ['0203-PAYT', '0401-CHKCLR', '0402-WHTCLR', '0301-GNRPRT', '0302-CUSLED', '0204-BGBLT'],
+                'Accounting' => ['0203-PAYT', '0401-CHKCLR', '0402-WHTCLR', '0301-GNRPRT', '0302-CUSLED'],
                 'Bookkeeper' => ['0301-GNRPRT', '0404-EXPRTGL'],
                 'IAD' => ['0301-GNRPRT'],
             ];
@@ -283,14 +285,17 @@ class UserController extends Controller
                 );
             }
         }
+        $syncUpdateUser->syncUpdatedUser($user);
 
         event(new NewCreated('user'));
     }
 
-    public function destroy($id)
+    public function destroy($id, UserDeleteSyncService $syncDeleteService)
     {
+        $buId = session('bu_id');
         $user = User::findOrFail($id);
-        $user->delete();
+        // $user->delete();
+        $syncDeleteService->removeUserFromBU($user, $buId);
         event(new NewCreated('user'));
     }
 
