@@ -123,7 +123,6 @@ Then restart the nssm reverb and nssm queue that you setup.
 ✔ Solution: The problem is the job executed uses the default .env setup. It doesnt use the database set in the session. so that why the data dont match because the request use the session data and the job compare it to the .env database set.
 So the solution is you must pass the session active database and use it in the controller and pass to job file to override the job to use the session database setup.
 
-You must pass the
 ---
 
 ## This setup is for giving access to database from centralized project using UniServerZ
