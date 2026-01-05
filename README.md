@@ -116,6 +116,16 @@ This happens when `nssm reverb and queue` is not properly created.
 Check again the nssm reverb the host and port must match on the server ip and the host must match on what is set in the reverb found in the .env file.
 Then restart the nssm reverb and nssm queue that you setup.
 
+---
+
+### ❌ **5. The Pdf job report doesnt show error, and stuck in 98% or 100%**
+
+✔ Solution: The problem is the job executed uses the default .env setup. It doesnt use the database set in the session. so that why the data dont match because the request use the session data and the job compare it to the .env database set.
+So the solution is you must pass the session active database and use it in the controller and pass to job file to override the job to use the session database setup.
+
+You must pass the
+---
+
 ## This setup is for giving access to database from centralized project using UniServerZ
 # Please note that the commands there is just a sample just change the thing base on the user and the database name you created. All commands there is just a guide so please be watchful.
 
