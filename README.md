@@ -149,7 +149,10 @@ finally run this command
 GRANT ALL PRIVILEGES ON `sample_database`.* TO 'admin'@'localhost';
 FLUSH PRIVILEGES;
 ```
-
+showing all username that being given an access and privileges
+```bash
+SELECT user, host FROM mysql.user;
+```
 Thats all for the first and main database setup in the project .env file
 
 *Next is to add more database on the same user
