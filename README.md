@@ -124,6 +124,16 @@ Then restart the nssm reverb and nssm queue that you setup.
 So the solution is you must pass the session active database and use it in the controller and pass to job file to override the job to use the session database setup.
 
 ---
+### ❌ **6. The report progress stop at 98%**
+
+✔ Solution: There is error in generating the report in pdf file. check it and if you want to know the exact error check the laravel.log file of the project.
+---
+
+### ❌ **7. The report progress doesnt load**
+
+✔ Solution: Check the console log by pressing f12, if there is broadcasting error then check the nssm in the server and restart it, or check the configuration if its correct.
+
+---
 
 ## This setup is for giving access to database from centralized project using UniServerZ
 # Please note that the commands there is just a sample just change the thing base on the user and the database name you created. All commands there is just a guide so please be watchful.
