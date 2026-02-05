@@ -134,6 +134,38 @@ So the solution is you must pass the session active database and use it in the c
 ✔ Solution: Check the console log by pressing f12, if there is broadcasting error then check the nssm in the server and restart it, or check the configuration if its correct.
 
 ---
+## This are the credentials for all server filezilla username and password
+*ALL UBAY SERVER
+username : ar_ubay
+password : ar_ubay2026 
+
+*BILAR SERVER
+username : ar_bilar
+password : ar2026
+
+*ICE AND PEANUT KISSES SERVER
+username : ar_icepk
+password : ar2026
+
+*CORTES PIGGERY AND POULTRY SERVER
+username : ar_cortes
+password : ar2026
+
+*CANHAYUPON SERVER
+username : ar_canhayupon
+password : ar2026
+
+*BILAR HATCHERY SERVER
+username : ar_hatchery
+password : ar2026
+
+*LAPSAON SERVER
+username : ar_lapsaon
+password : ar2026
+
+*RIZAL BREEDER SERVER
+username : ar_rizal
+password : ar2026
 
 ## This setup is for giving access to database from centralized project using UniServerZ
 # Please note that the commands there is just a sample just change the thing base on the user and the database name you created. All commands there is just a guide so please be watchful.
