@@ -1,31 +1,5 @@
 # **AR SYSTEM – Account Receivable System**
 
-A centralized **multi‑database Account Receivable System** built in Laravel. Each user is assigned a specific business unit database, while administrators have full access to all databases.
-
----
-
-## 🚀 **System Overview**
-
-The system operates with **one Laravel project** but multiple databases. Behavior varies by role:
-
-### **👨‍💼 Admin Behavior**
-
-* Can access **all databases**.
-* Can **switch the active database** after logging in.
-* When an admin creates a new user, the **user will be set what database it can be use base on admin selected**.
-
-### **👤 Normal User Behavior**
-
-* Has access **only to the database assigned** at account creation.
-* Cannot switch databases.
-
-### **📌 How Database Switching Works**
-
-* **Web requests** use the database stored in the **session**.
-* **Background processes** (Reverb, Queue workers) always use the **default DB defined in `.env`**, unless explicitly overridden.
-
----
-
 ## 🛠️ **Project Setup (After Cloning)**
 
 Run the following commands:
@@ -212,12 +186,6 @@ finally run this command
 GRANT ALL PRIVILEGES ON `second_sample_database`.* TO 'admin'@'localhost';
 FLUSH PRIVILEGES;
 ```
-
-## 📌 Additional Notes
-
-* Admins can now set the newly added users on database which he or she can use only.
-* Queue workers and Reverb processes **do not use session-based DB**. They use the DB defined in the `.env` unless dynamically reconfigured.
-
 ---
 
 ## 📞 **Support**
