@@ -107,6 +107,9 @@ So the solution is you must pass the session active database and use it in the c
 
 ✔ Solution: Check the console log by pressing f12, if there is broadcasting error then check the nssm in the server and restart it, or check the configuration if its correct.
 
+### ❌ **8. 500 Server Error.**
+✔ Solution: Please check all the backend code. There is backend error there
+
 ---
 ## This are the credentials for all server filezilla username and password
 *ALL UBAY SERVER
